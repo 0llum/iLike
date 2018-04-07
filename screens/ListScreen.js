@@ -1,5 +1,7 @@
 import React from 'react';
-import { Keyboard, StyleSheet, Text, View, TextInput, FlatList, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
+import { Keyboard, StyleSheet, Text, View, TextInput, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
+import List from '../components/List';
+import * as Lists from '../constants/Lists';
 
 const styles = StyleSheet.create({
   container: {
@@ -34,7 +36,7 @@ class ListScreen extends React.Component {
         style={styles.addButton}
         onPress={params.navigateToTilesScreen}
       >
-        <Text>GO</Text>
+        <Text style={styles.addButton}>GO</Text>
       </TouchableOpacity>,
     };
   };
@@ -42,7 +44,7 @@ class ListScreen extends React.Component {
   constructor() {
     super();
     this.state = {
-      items: [],
+      items: Lists.Overwatch_Heroes,
       text: "",
       id: 0,
     }
@@ -63,12 +65,11 @@ class ListScreen extends React.Component {
   onPressAdd = () => {
     const id = this.state.id;
     this.setState({
-      items: [...this.state.items, {id: id, name: this.state.text, rank: 0}],
+      items: [...this.state.items, {id: id, name: this.state.text, rank: 0, count: 0, pickRate: 0, overall: 0}],
       text: "",
       id: id + 1,
     });
     Keyboard.dismiss();
-    console.log(this.state);
   }
 
   render() {
@@ -77,15 +78,7 @@ class ListScreen extends React.Component {
         style={styles.container}
         behavior={"padding"}
       >
-        <FlatList 
-          style={styles.list}
-          keyExtractor={(item, index) => item.id.toString()}
-          data={this.state.items}
-          extraData={this.state}
-          renderItem={({item}) =>
-            <Text>{item.name}</Text>
-          }
-        />
+        <List data={this.state.items} />
         <View style={styles.inputBar}>
           <TextInput
             style={styles.inputField}

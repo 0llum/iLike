@@ -1,19 +1,22 @@
 import React from 'react';
-import { StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import List from '../components/List';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
-    paddingTop: 30,
+  },
+  list: {
+    flex: 1,
   },
   tiles: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'center',
   },
   tile: {
-    width: 150,
-    height: 150,
+    flex: 1,
+    height: 100,
     justifyContent: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.2)'
   },
@@ -21,80 +24,113 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 20,
   },
-  list: {
-    flex: 1,
-  },
 });
 
 class TilesScreen extends React.Component {
   constructor(props) {
     super(props);
-    const { items } = props.navigation.state.params;
+    let { items } = props.navigation.state.params;
+    items = items.sort(this.byName);
+    shuffled = this.shuffle(items);
     this.state = {
       items: items,
-      tile1: items[0],
-      tile2: items[1],
+      tile1: shuffled[0],
+      tile2: shuffled[1],
     }
   }
 
-  onPressTile1 = () => {
-    const items = this.state.items.map(el => (
-      el.id === this.state.tile1.id ? {...el, rank: el.rank + 1} : el
-    ));
+  onPressTile = (num) => {
+    let items = this.state.items;
+
+    // increase count of both tile items
+    items = items.map(el => (el.id === this.state.tile1.id ? {...el, count: el.count + 1} : el));
+    items = items.map(el => (el.id === this.state.tile2.id ? {...el, count: el.count + 1} : el));
+
+    // increase rate of picked item
+    if (num === 0) {
+      items = items.map(el => (el.id === this.state.tile1.id ? {...el, rank: el.rank + 1} : el));
+    } else {
+      items = items.map(el => (el.id === this.state.tile2.id ? {...el, rank: el.rank + 1} : el));
+    }
+
+    // calculate pickRate
+    items = items.map(el => (el.count > 0 ? {...el, pickRate: el.rank / el.count} : el));
+
+    // calculate sum of counts
+    let countSum = 0;
+    items.forEach(el => {
+      countSum += el.count;
+    });
+
+    // calculate overall pickRate
+    items = items.map(el => (countSum > 0 ? {...el, overall: el.rank / (countSum / 2)} : el));
+
+    // sort items by pickRate (inverse, because of how flatlist works)
+    items.sort(this.byPickRate);
+
+    // create a shuffled copy of items
+    shuffled = this.shuffle(items);
+    shuffled.sort(this.byCount);
 
     this.setState({
       items: items,
-      tile1: items[this.getRndInteger(0, items.length)],
-      tile2: items[this.getRndInteger(0, items.length)],
+      tile1: shuffled[0],
+      tile2: shuffled[1],
     });
-
-    console.log(this.state);
   }
 
-  onPressTile2 = () => {
-    const items = this.state.items.map(el => (
-      el.id === this.state.tile2.id ? {...el, rank: el.rank + 1} : el
-    ));
-
-    this.setState({
-      items: items,
-      tile1: items[this.getRndInteger(0, items.length)],
-      tile2: items[this.getRndInteger(0, items.length)],
-    });
-
-    console.log(this.state);
+  byName(a, b) {
+    var nameA = a.name.toUpperCase();
+    var nameB = b.name.toUpperCase();
+    if (nameA < nameB) {
+      return -1;
+    }
+    if (nameA > nameB) {
+      return 1;
+    }
+  
+    return 0;
   }
 
-  getRndInteger(min, max) {
+  byPickRate(a, b) {
+    return b.pickRate - a.pickRate;
+  }
+
+  byCount(a, b) {
+    return a.count - b.count;
+  }
+
+  shuffle(a) {
+    b = a.slice();
+    for (let i = b.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [b[i], b[j]] = [b[j], b[i]];
+    }
+    return b;
+  }
+
+  getRandomInteger(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
   }
 
   render() {
     return (
       <View style={styles.container}>
+      <List data={this.state.items} />
         <View style={styles.tiles}>
           <TouchableOpacity 
             style={styles.tile}
-            onPress={this.onPressTile1}
+            onPress={() => this.onPressTile(0)}
           >
             <Text style={styles.tileText}>{this.state.tile1.name}</Text>
           </TouchableOpacity>
           <TouchableOpacity 
             style={styles.tile}
-            onPress={this.onPressTile2}
+            onPress={() => this.onPressTile(1)}
           >
             <Text style={styles.tileText}>{this.state.tile2.name}</Text>
           </TouchableOpacity>
         </View>
-        <FlatList 
-          style={styles.list}
-          keyExtractor={(item, index) => item.id.toString()}
-          data={this.state.items}
-          extraData={this.state}
-          renderItem={({item}) =>
-            <Text>{item.id} - {item.name} - {item.rank}</Text>
-          }
-        />
       </View>
     );
   }
