@@ -1,13 +1,15 @@
 import React from 'react';
 import { StackNavigator } from 'react-navigation';
-import ListScreen from './screens/ListScreen';
+import ListSelectScreen from './screens/ListSelectScreen';
+import ListCreateScreen from './screens/ListCreateScreen';
 import TilesScreen from './screens/TilesScreen';
 
 const Navigation = StackNavigator({
-  List: {screen: ListScreen},
+  ListSelect: {screen: ListSelectScreen},
+  ListCreate: {screen: ListCreateScreen},
   Tiles: {screen: TilesScreen},
 }, {
-  initialRouteName: 'List',
+  initialRouteName: 'ListSelect',
 });
 
 console.disableYellowBox = true;
