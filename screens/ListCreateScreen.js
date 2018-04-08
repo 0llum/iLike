@@ -1,7 +1,7 @@
 import React from 'react';
 import { Keyboard, StyleSheet, Text, View, TextInput, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import List from '../components/List';
-import * as Lists from '../constants/Lists';
+import Lists from '../constants/Lists';
 
 const styles = StyleSheet.create({
   container: {
@@ -20,42 +20,47 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   addButton: {
-    padding: 5,
+    padding: 10,
     justifyContent: 'center',
   },
 });
 
-class ListScreen extends React.Component {
+class ListCreateScreen extends React.Component {
+
   static navigationOptions = ({ navigation }) => {
-    const params = navigation.state.params || {};
+   const params = navigation.state.params || {};
 
     return {
-    headerTitle: 'ListScreen',
-    headerRight:
-      <TouchableOpacity 
-        style={styles.addButton}
-        onPress={params.navigateToTilesScreen}
-      >
-        <Text style={styles.addButton}>GO</Text>
-      </TouchableOpacity>,
+      headerTitle: 'ListScreen',
+      headerRight:
+        <TouchableOpacity onPress={params.navigateToTilesScreen}>
+          <Text style={styles.addButton}>GO</Text>
+        </TouchableOpacity>,
     };
   };
 
   constructor() {
     super();
+    const data = Lists[0];
     this.state = {
-      items: Lists.Overwatch_Heroes,
-      text: "",
-      id: 0,
+      name: data.name,
+      items: data.data,
+      text: '',
+      id: data.data.length === 0 ? 0 : data.data.reduce((prev, current) => (prev.id > current.id) ? prev : current).id + 1,
     }
   }
 
   componentWillMount() {
-    this.props.navigation.setParams({ navigateToTilesScreen: this.navigateToTilesScreen })
+    this.props.navigation.setParams({
+      navigateToTilesScreen: this.navigateToTilesScreen,
+    })
   }
 
   navigateToTilesScreen = () => {
-    this.props.navigation.navigate('Tiles', { items: this.state.items });
+    this.props.navigation.navigate('Tiles', {
+      name: this.state.name,
+      items: this.state.items
+    });
   }
 
   onChangeText = (value) => {
@@ -65,7 +70,14 @@ class ListScreen extends React.Component {
   onPressAdd = () => {
     const id = this.state.id;
     this.setState({
-      items: [...this.state.items, {id: id, name: this.state.text, rank: 0, count: 0, pickRate: 0, overall: 0}],
+      items: [...this.state.items, {
+        id: id,
+        name: this.state.text,
+        rank: 0,
+        count: 0,
+        pickRate: 0,
+        overall: 0
+      }],
       text: "",
       id: id + 1,
     });
@@ -78,7 +90,10 @@ class ListScreen extends React.Component {
         style={styles.container}
         behavior={"padding"}
       >
-        <List data={this.state.items} />
+        <List 
+          data={this.state.items}
+          name
+        />
         <View style={styles.inputBar}>
           <TextInput
             style={styles.inputField}
@@ -98,4 +113,4 @@ class ListScreen extends React.Component {
   }
 }
 
-export default ListScreen;
+export default ListCreateScreen;

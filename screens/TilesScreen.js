@@ -27,6 +27,17 @@ const styles = StyleSheet.create({
 });
 
 class TilesScreen extends React.Component {
+
+  static navigationOptions = ({ navigation }) => {
+    const params = navigation.state.params || {};
+
+    console.log(params);
+
+    return {
+      headerTitle: params.name,
+    }
+  };
+
   constructor(props) {
     super(props);
     let { items } = props.navigation.state.params;
@@ -116,7 +127,12 @@ class TilesScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-      <List data={this.state.items} />
+      <List 
+        data={this.state.items}
+        name
+        pickRate
+        overall
+      />
         <View style={styles.tiles}>
           <TouchableOpacity 
             style={styles.tile}
