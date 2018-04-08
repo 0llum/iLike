@@ -5,7 +5,6 @@ import List from '../components/List';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10,
   },
   list: {
     flex: 1,
@@ -30,9 +29,6 @@ class TilesScreen extends React.Component {
 
   static navigationOptions = ({ navigation }) => {
     const params = navigation.state.params || {};
-
-    console.log(params);
-
     return {
       headerTitle: params.name,
     }
@@ -41,27 +37,44 @@ class TilesScreen extends React.Component {
   constructor(props) {
     super(props);
     let { items } = props.navigation.state.params;
-    items = items.sort(this.byName);
+    items = items.map(el => ({
+      ...el,
+      count: 0,
+      rank: 0,
+      pickRate: 0,
+      overall: 0,
+      matches: [],
+    }));
+    items.sort(this.byName);
     shuffled = this.shuffle(items);
     this.state = {
       items: items,
-      tile1: shuffled[0],
-      tile2: shuffled[1],
+      left: shuffled[0],
+      right: shuffled[1],
     }
   }
 
   onPressTile = (num) => {
     let items = this.state.items;
 
-    // increase count of both tile items
-    items = items.map(el => (el.id === this.state.tile1.id ? {...el, count: el.count + 1} : el));
-    items = items.map(el => (el.id === this.state.tile2.id ? {...el, count: el.count + 1} : el));
+    // increase count of both tile items and add other tile to matches
+    items = items.map(el => (el.id === this.state.left.id ? {
+      ...el, 
+      count: el.count + 1, 
+      matches: [...el.matches, this.state.right.id]
+    } : el));
+
+    items = items.map(el => (el.id === this.state.right.id ? {
+      ...el,
+      count: el.count + 1,
+      matches: [...el.matches, this.state.left.id]
+    } : el));
 
     // increase rate of picked item
     if (num === 0) {
-      items = items.map(el => (el.id === this.state.tile1.id ? {...el, rank: el.rank + 1} : el));
+      items = items.map(el => (el.id === this.state.left.id ? {...el, rank: el.rank + 1} : el));
     } else {
-      items = items.map(el => (el.id === this.state.tile2.id ? {...el, rank: el.rank + 1} : el));
+      items = items.map(el => (el.id === this.state.right.id ? {...el, rank: el.rank + 1} : el));
     }
 
     // calculate pickRate
@@ -75,7 +88,7 @@ class TilesScreen extends React.Component {
 
     // calculate overall pickRate
     items = items.map(el => (countSum > 0 ? {...el, overall: el.rank / (countSum / 2)} : el));
-
+    
     // sort items by pickRate (inverse, because of how flatlist works)
     items.sort(this.byPickRate);
 
@@ -83,19 +96,31 @@ class TilesScreen extends React.Component {
     shuffled = this.shuffle(items);
     shuffled.sort(this.byCount);
 
+    let left = shuffled[0];
+    let right;
+
+    for (let i = 1; i < shuffled.length; i++) {
+      if (!left.matches.includes(shuffled[i].id)) {
+        right = shuffled[i];
+        break;
+      }
+    }
+
     this.setState({
       items: items,
-      tile1: shuffled[0],
-      tile2: shuffled[1],
+      left: left,
+      right: right,
     });
   }
 
-  byName(a, b) {
-    var nameA = a.name.toUpperCase();
-    var nameB = b.name.toUpperCase();
+  byName = (a, b) => {
+    const nameA = a.name.toUpperCase();
+    const nameB = b.name.toUpperCase();
+    
     if (nameA < nameB) {
       return -1;
     }
+    
     if (nameA > nameB) {
       return 1;
     }
@@ -103,11 +128,19 @@ class TilesScreen extends React.Component {
     return 0;
   }
 
-  byPickRate(a, b) {
-    return b.pickRate - a.pickRate;
+  byPickRate = (a, b) => {
+    if (a.pickRate < b.pickRate) {
+      return 1;
+    }
+
+    if (a.pickRate > b.pickRate) {
+      return -1;
+    }
+
+    return this.byName(a, b);
   }
 
-  byCount(a, b) {
+  byCount = (a, b) => {
     return a.count - b.count;
   }
 
@@ -130,6 +163,7 @@ class TilesScreen extends React.Component {
       <List 
         data={this.state.items}
         name
+        count
         pickRate
         overall
       />
@@ -138,13 +172,13 @@ class TilesScreen extends React.Component {
             style={styles.tile}
             onPress={() => this.onPressTile(0)}
           >
-            <Text style={styles.tileText}>{this.state.tile1.name}</Text>
+            <Text style={styles.tileText}>{this.state.left.name}</Text>
           </TouchableOpacity>
           <TouchableOpacity 
             style={styles.tile}
             onPress={() => this.onPressTile(1)}
           >
-            <Text style={styles.tileText}>{this.state.tile2.name}</Text>
+            <Text style={styles.tileText}>{this.state.right.name}</Text>
           </TouchableOpacity>
         </View>
       </View>

@@ -6,7 +6,6 @@ import Lists from '../constants/Lists';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10,
   },
   headerButton: {
     padding: 15,
@@ -46,11 +45,11 @@ class ListSelectScreen extends React.Component {
     })
   }
 
-  navigateToListCreateScreen() {
+  navigateToListCreateScreen = () => {
     this.props.navigation.navigate('ListCreate');
   }
 
-  onPress = (item) => {
+  onItemPress = (item) => {
     this.props.navigation.navigate('Tiles', {
       name: item.item.name,
       items: item.item.data,
@@ -62,7 +61,7 @@ class ListSelectScreen extends React.Component {
       <View style={styles.container}>
         <List 
           data={this.state.items}
-          onItemPress={(item) => this.onPress(item)}
+          onItemPress={(item) => this.onItemPress(item)}
           name
           entries
         />

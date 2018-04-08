@@ -1,12 +1,10 @@
 import React from 'react';
 import { Keyboard, StyleSheet, Text, View, TextInput, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import List from '../components/List';
-import Lists from '../constants/Lists';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10,
   },
   list: {
     flex: 1,
@@ -15,6 +13,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 40,
     flexDirection: 'row',
+    paddingHorizontal: 10,
   },
   inputField: {
     flex: 1,
@@ -41,12 +40,11 @@ class ListCreateScreen extends React.Component {
 
   constructor() {
     super();
-    const data = Lists[0];
     this.state = {
-      name: data.name,
-      items: data.data,
+      name: 'New List',
+      items: [],
       text: '',
-      id: data.data.length === 0 ? 0 : data.data.reduce((prev, current) => (prev.id > current.id) ? prev : current).id + 1,
+      id: 0,
     }
   }
 

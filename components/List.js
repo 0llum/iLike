@@ -4,10 +4,17 @@ import { StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native
 const styles = StyleSheet.create({
   list: {
     flex: 1,
+    padding: 10,
   },
   separator: {
     height: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.1)'
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    height: 50,
   },
   row: {
     flexDirection: 'row',
@@ -49,7 +56,7 @@ class List extends React.Component {
         extraData={data}
         keyExtractor={(item, index) => item.id.toString()}
         ListHeaderComponent={
-          <View style={styles.row}>
+          <View style={styles.header}>
             { name && <Text style={[styles.name, { fontWeight: 'bold' }]}>Name</Text> }
             { count && <Text style={[styles.number, { fontWeight: 'bold' }]}>Count</Text> }
             { rank && <Text style={[styles.number, { fontWeight: 'bold' }]}>Rank</Text> }
