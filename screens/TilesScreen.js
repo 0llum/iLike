@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import List from '../components/List';
+import * as Colors from '../constants/Colors';
+import * as ColorUtils from '../utils/ColorUtils';
 
 const styles = StyleSheet.create({
   container: {
@@ -21,7 +23,8 @@ const styles = StyleSheet.create({
   },
   tileText: {
     textAlign: 'center',
-    fontSize: 20,
+    fontSize: 24,
+    fontWeight: 'bold',
   },
 });
 
@@ -51,6 +54,7 @@ class TilesScreen extends React.Component {
       items: items,
       left: shuffled[0],
       right: shuffled[1],
+      showTiles: true,
     }
   }
 
@@ -104,6 +108,14 @@ class TilesScreen extends React.Component {
         right = shuffled[i];
         break;
       }
+    }
+
+    if (!right) {
+      this.setState({
+        items: items,
+        showTiles: false,
+      })
+      return;
     }
 
     this.setState({
@@ -163,24 +175,27 @@ class TilesScreen extends React.Component {
       <List 
         data={this.state.items}
         name
-        count
         pickRate
         overall
       />
-        <View style={styles.tiles}>
+        {this.state.showTiles && <View style={styles.tiles}>
           <TouchableOpacity 
-            style={styles.tile}
+            style={[styles.tile, {backgroundColor: this.state.left.color}]}
             onPress={() => this.onPressTile(0)}
           >
-            <Text style={styles.tileText}>{this.state.left.name}</Text>
+            <Text style={[styles.tileText, {color: ColorUtils.getBrightness(this.state.left.color) > 128 ? Colors.black : Colors.white}]}>
+              {this.state.left.name}
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity 
-            style={styles.tile}
+            style={[styles.tile, {backgroundColor: this.state.right.color}]}
             onPress={() => this.onPressTile(1)}
           >
-            <Text style={styles.tileText}>{this.state.right.name}</Text>
+            <Text style={[styles.tileText, {color: ColorUtils.getBrightness(this.state.right.color) > 128 ? Colors.black : Colors.white}]}>
+              {this.state.right.name}
+            </Text>
           </TouchableOpacity>
-        </View>
+        </View>}
       </View>
     );
   }

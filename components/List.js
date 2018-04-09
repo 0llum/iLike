@@ -66,7 +66,7 @@ class List extends React.Component {
           </View>
         }
         renderItem={({item}) =>
-          <TouchableOpacity 
+          <TouchableOpacity
             style={styles.row}
             onPress={() => onItemPress({item})}
           >
