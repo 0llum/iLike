@@ -32,8 +32,13 @@ class TilesScreen extends React.Component {
 
   static navigationOptions = ({ navigation }) => {
     const params = navigation.state.params || {};
+    console.log(params);
     return {
       headerTitle: params.name,
+      headerStyle: {
+        backgroundColor: params.color,
+      },
+      headerTintColor: ColorUtils.getTextColor(params.color),
     }
   };
 
@@ -165,10 +170,6 @@ class TilesScreen extends React.Component {
     return b;
   }
 
-  getRandomInteger(min, max) {
-    return Math.floor(Math.random() * (max - min)) + min;
-  }
-
   render() {
     return (
       <View style={styles.container}>
@@ -183,7 +184,7 @@ class TilesScreen extends React.Component {
             style={[styles.tile, {backgroundColor: this.state.left.color}]}
             onPress={() => this.onPressTile(0)}
           >
-            <Text style={[styles.tileText, {color: ColorUtils.getBrightness(this.state.left.color) > 128 ? Colors.black : Colors.white}]}>
+            <Text style={[styles.tileText, {color: ColorUtils.getTextColor(this.state.left.color)}]}>
               {this.state.left.name}
             </Text>
           </TouchableOpacity>
@@ -191,7 +192,7 @@ class TilesScreen extends React.Component {
             style={[styles.tile, {backgroundColor: this.state.right.color}]}
             onPress={() => this.onPressTile(1)}
           >
-            <Text style={[styles.tileText, {color: ColorUtils.getBrightness(this.state.right.color) > 128 ? Colors.black : Colors.white}]}>
+            <Text style={[styles.tileText, {color: ColorUtils.getTextColor(this.state.right.color)}]}>
               {this.state.right.name}
             </Text>
           </TouchableOpacity>

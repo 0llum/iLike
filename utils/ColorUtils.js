@@ -1,3 +1,5 @@
+import * as Colors from '../constants/Colors';
+
 export function hexToRGB(color) {
   if (color.substring(0, 1) == '#') {
      color = color.substring(1);
@@ -13,6 +15,14 @@ export function hexToRGB(color) {
  };
 
 export function getBrightness(color) {
+  if (!color) {
+    return 255;
+  }
+
   rgb = hexToRGB(color);
   return rgb.r * 0.299 + rgb.g * 0.587 + rgb.b * 0.114;
-}  
+}
+
+export function getTextColor(color) {
+  return getBrightness(color) > 128 ? Colors.black : Colors.white;
+}

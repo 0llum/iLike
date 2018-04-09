@@ -52,6 +52,7 @@ class ListSelectScreen extends React.Component {
   onItemPress = (item) => {
     this.props.navigation.navigate('Tiles', {
       name: item.item.name,
+      color: item.item.color,
       items: item.item.data,
     });
   }

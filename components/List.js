@@ -1,14 +1,16 @@
 import React from 'react';
 import { StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native';
+import * as Colors from '../constants/Colors';
+import * as ColorUtils from '../utils/ColorUtils';
 
 const styles = StyleSheet.create({
   list: {
     flex: 1,
-    padding: 10,
+    padding: 5,
   },
   separator: {
-    height: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.1)'
+    height: 5,
+    backgroundColor: 'rgba(0, 0, 0, 0)'
   },
   header: {
     flexDirection: 'row',
@@ -36,7 +38,6 @@ const styles = StyleSheet.create({
 });
 
 class List extends React.Component {
-
   render() {
     const {
       data,
@@ -67,15 +68,15 @@ class List extends React.Component {
         }
         renderItem={({item}) =>
           <TouchableOpacity
-            style={styles.row}
-            onPress={() => onItemPress({item})}
+            style={[styles.row, {backgroundColor: item.color}]}
+            onPress={() => onItemPress ? onItemPress({item}) : false}
           >
-            { name && <Text style={styles.name}>{item.name}</Text> }
-            { count && <Text style={styles.number}>{item.count}</Text> }
-            { rank && <Text style={styles.number}>{item.rank}</Text> }
-            { pickRate && <Text style={styles.number}>{Math.round(item.pickRate * 100)}%</Text> }
-            { overall && <Text style={styles.number}>{Math.round(item.overall * 100)}%</Text> }
-            { entries && <Text style={styles.number}>{item.data.length}</Text> }
+            { name && <Text style={[styles.name, {color: ColorUtils.getTextColor(item.color)}]}>{item.name}</Text> }
+            { count && <Text style={[styles.number, {color: ColorUtils.getTextColor(item.color)}]}>{item.count}</Text> }
+            { rank && <Text style={[styles.number, {color: ColorUtils.getTextColor(item.color)}]}>{item.rank}</Text> }
+            { pickRate && <Text style={[styles.number, {color: ColorUtils.getTextColor(item.color)}]}>{Math.round(item.pickRate * 100)}%</Text> }
+            { overall && <Text style={[styles.number, {color: ColorUtils.getTextColor(item.color)}]}>{Math.round(item.overall * 100)}%</Text> }
+            { entries && <Text style={[styles.number, {color: ColorUtils.getTextColor(item.color)}]}>{item.data.length}</Text> }
           </TouchableOpacity>
         }
         ItemSeparatorComponent={() =>

@@ -28,6 +28,7 @@ export default [{
 }, {
   id: 3,
   name : 'Overwatch Heroes',
+  color: '#3c474b',
   data: [
     {id: 0, name: 'Ana', color: '#718ab3'},
     {id: 1, name: 'Bastion', color: '#7c8f7b'},
