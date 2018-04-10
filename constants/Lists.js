@@ -10,10 +10,10 @@ export default [{
   id: 1,
   name: 'ABCD',
   data: [
-    {id: 0, name: 'A', color: '#FF0000'},
-    {id: 1, name: 'B'},
-    {id: 2, name: 'C'},
-    {id: 3, name: 'D'},
+    {id: 0, name: 'A', color: '#4285f4'},
+    {id: 1, name: 'B', color: '#0f9d58'},
+    {id: 2, name: 'C', color: '#f4b400'},
+    {id: 3, name: 'D', color: '#4285f4'},
   ]
 }, {
   id: 2,

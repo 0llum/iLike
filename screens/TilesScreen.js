@@ -32,7 +32,6 @@ class TilesScreen extends React.Component {
 
   static navigationOptions = ({ navigation }) => {
     const params = navigation.state.params || {};
-    console.log(params);
     return {
       headerTitle: params.name,
       headerStyle: {
@@ -66,28 +65,52 @@ class TilesScreen extends React.Component {
   onPressTile = (num) => {
     let items = this.state.items;
 
-    // increase count of both tile items and add other tile to matches
-    items = items.map(el => (el.id === this.state.left.id ? {
-      ...el, 
-      count: el.count + 1, 
-      matches: [...el.matches, this.state.right.id]
-    } : el));
+    let left = items.find(x => x.id === this.state.left.id);
+    let right = items.find(x => x.id === this.state.right.id);
 
-    items = items.map(el => (el.id === this.state.right.id ? {
-      ...el,
-      count: el.count + 1,
-      matches: [...el.matches, this.state.left.id]
-    } : el));
+    left.count = left.count + 1;
+    right.count = right.count + 1;
 
-    // increase rate of picked item
+    left.matches = [...left.matches, {
+      id: this.state.right.id,
+      name: this.state.right.name,
+      color: this.state.right.color,
+      count: 0,
+      rank: 0,
+      pickRate: 0,
+    }];
+
+    right.matches = [...right.matches, {
+      id: this.state.left.id,
+      name: this.state.left.name,
+      color: this.state.left.color,
+      count: 0,
+      rank: 0,
+      pickRate: 0,
+    }];
+
+    rightMatch = right.matches.find(x => x.id === this.state.left.id);
+    leftMatch = left.matches.find(x => x.id === this.state.right.id);
+
+    rightMatch.count = rightMatch.count + 1;
+    leftMatch.count = leftMatch.count + 1;
+
     if (num === 0) {
-      items = items.map(el => (el.id === this.state.left.id ? {...el, rank: el.rank + 1} : el));
+      left.rank = left.rank + 1;
+      rightMatch.rank = rightMatch.rank + 1;
     } else {
-      items = items.map(el => (el.id === this.state.right.id ? {...el, rank: el.rank + 1} : el));
+      right.rank = right.rank + 1;
+      leftMatch.rank = leftMatch + 1;
     }
 
+    leftMatch.pickRate = leftMatch.rank / leftMatch.count;
+    rightMatch.pickRate = rightMatch.rank / rightMatch.count;
+
     // calculate pickRate
-    items = items.map(el => (el.count > 0 ? {...el, pickRate: el.rank / el.count} : el));
+    items = items.map(el => (el.count > 0 ? {
+      ...el,
+      pickRate: el.rank / el.count
+    } : el));
 
     // calculate sum of counts
     let countSum = 0;
@@ -96,7 +119,10 @@ class TilesScreen extends React.Component {
     });
 
     // calculate overall pickRate
-    items = items.map(el => (countSum > 0 ? {...el, overall: el.rank / (countSum / 2)} : el));
+    items = items.map(el => (countSum > 0 ? {
+      ...el,
+      overall: el.rank * 2 / countSum
+    } : el));
     
     // sort items by pickRate (inverse, because of how flatlist works)
     items.sort(this.byPickRate);
@@ -105,8 +131,8 @@ class TilesScreen extends React.Component {
     shuffled = this.shuffle(items);
     shuffled.sort(this.byCount);
 
-    let left = shuffled[0];
-    let right;
+    left = shuffled[0];
+    right;
 
     for (let i = 1; i < shuffled.length; i++) {
       if (!left.matches.includes(shuffled[i].id)) {
@@ -170,11 +196,20 @@ class TilesScreen extends React.Component {
     return b;
   }
 
+  onItemPress = (item) => {
+    this.props.navigation.navigate('Details', {
+      name: item.item.name,
+      color: item.item.color,
+      items: item.item.matches,
+    });
+  }
+
   render() {
     return (
       <View style={styles.container}>
       <List 
         data={this.state.items}
+        onItemPress={(item) => this.onItemPress(item)}
         name
         pickRate
         overall
