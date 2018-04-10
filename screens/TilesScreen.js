@@ -131,17 +131,19 @@ class TilesScreen extends React.Component {
     shuffled = this.shuffle(items);
     shuffled.sort(this.byCount);
 
-    left = shuffled[0];
-    right;
+    let newLeft = shuffled[0];
+    let newRight;
 
     for (let i = 1; i < shuffled.length; i++) {
-      if (!left.matches.includes(shuffled[i].id)) {
-        right = shuffled[i];
+      matchLeft = newLeft.matches.find(x => x.id === shuffled[i].id);
+      matchRight = shuffled[i].matches.find(x => x.id === newLeft.id);
+      if (!matchLeft && !matchRight) {
+        newRight = shuffled[i];
         break;
       }
     }
 
-    if (!right) {
+    if (!newRight) {
       this.setState({
         items: items,
         showTiles: false,
@@ -151,9 +153,11 @@ class TilesScreen extends React.Component {
 
     this.setState({
       items: items,
-      left: left,
-      right: right,
+      left: newLeft,
+      right: newRight,
     });
+
+    console.log(items);
   }
 
   byName = (a, b) => {
