@@ -93,12 +93,43 @@ export default [{
     {id: 4, name: 'E'},
     {id: 5, name: 'F'},
     {id: 6, name: 'G'},
-    {id: 6, name: 'H'},
-    {id: 6, name: 'I'},
-    {id: 6, name: 'J'},
+    {id: 7, name: 'H'},
+    {id: 8, name: 'I'},
+    {id: 9, name: 'J'},
   ]
 }, {
   id: 9,
+  name: 'Flyff Klassen',
+  color: '#0087c4',
+  data: [
+    {id: 0, name: 'Blade'},
+    {id: 1, name: 'Knight'},
+    {id: 2, name: 'Jester'},
+    {id: 3, name: 'Ranger'},
+    {id: 4, name: 'Billposter'},
+    {id: 5, name: 'Ringmaster'},
+    {id: 6, name: 'Psykeeper'},
+    {id: 7, name: 'Elementor'},
+  ]
+}, {
+  id: 10,
+  name: 'Dead By Daylight Killer',
+  color: '#000000',
+  data: [
+    {id: 0, name: 'Trapper'},
+    {id: 1, name: 'Wraith'},
+    {id: 2, name: 'Hillbilly'},
+    {id: 3, name: 'Nurse'},
+    {id: 4, name: 'Shape'},
+    {id: 5, name: 'Hag'},
+    {id: 6, name: 'Doctor'},
+    {id: 7, name: 'Huntress'},
+    {id: 8, name: 'Cannibal'},
+    {id: 9, name: 'Nightmare'},
+    {id: 10, name: 'Pig'},
+  ]
+}, {
+  id: 11,
   name : 'Overwatch Heroes',
   color: '#3c474b',
   data: [
@@ -131,7 +162,7 @@ export default [{
     {id: 26, name: 'Zenyatta', color: '#ede582'},
   ]
 }, {
-  id: 10,
+  id: 12,
   name : 'Schulfächer',
   data : [
     {id: 0, name: 'Mathe'},
@@ -152,7 +183,7 @@ export default [{
     {id: 15, name: 'Ethik'},
   ]
 }, {
-  id: 11,
+  id: 13,
   name: 'Pokémon 1. Generation',
   data: [
     {id: 1, name: 'Bisasam'},

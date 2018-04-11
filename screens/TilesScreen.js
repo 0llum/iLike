@@ -99,34 +99,29 @@ class TilesScreen extends React.Component {
       rightMatch.rank = rightMatch.rank + 1;
     } else {
       right.rank = right.rank + 1;
-      leftMatch.rank = leftMatch + 1;
+      leftMatch.rank = leftMatch.rank + 1;
     }
 
     leftMatch.pickRate = leftMatch.rank / leftMatch.count;
     rightMatch.pickRate = rightMatch.rank / rightMatch.count;
 
-    // calculate pickRate
     items = items.map(el => (el.count > 0 ? {
       ...el,
       pickRate: el.rank / el.count
     } : el));
 
-    // calculate sum of counts
     let countSum = 0;
     items.forEach(el => {
       countSum += el.count;
     });
 
-    // calculate overall pickRate
     items = items.map(el => (countSum > 0 ? {
       ...el,
       overall: el.rank * 2 / countSum
     } : el));
     
-    // sort items by pickRate (inverse, because of how flatlist works)
     items.sort(ListUtils.byPickRate);
 
-    // create a shuffled copy of items
     shuffled = ListUtils.shuffle(items);
     shuffled.sort(ListUtils.byCount);
 
