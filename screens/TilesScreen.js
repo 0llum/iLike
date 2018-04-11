@@ -33,7 +33,7 @@ class TilesScreen extends React.Component {
     return {
       headerTitle: params.name,
       headerStyle: {
-        backgroundColor: params.color,
+        backgroundColor: params.color || Colors.white,
       },
       headerTintColor: ColorUtils.getTextColor(params.color),
     }
