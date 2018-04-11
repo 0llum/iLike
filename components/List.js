@@ -6,7 +6,8 @@ import * as ColorUtils from '../utils/ColorUtils';
 const styles = StyleSheet.create({
   list: {
     flex: 1,
-    padding: 5,
+    paddingHorizontal: 5,
+    marginVertical: 5,
   },
   separator: {
     height: 5,
@@ -23,6 +24,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     height: 40,
+    backgroundColor: Colors.white,
   },
   name: {
     flex: 2,
@@ -56,6 +58,7 @@ class List extends React.Component {
         data={data}
         extraData={data}
         keyExtractor={(item, index) => item.id.toString()}
+        showsVerticalScrollIndicator={false}
         ListHeaderComponent={
           <View style={styles.header}>
             { name && <Text style={[styles.name, { fontWeight: 'bold' }]}>Name</Text> }
@@ -68,7 +71,7 @@ class List extends React.Component {
         }
         renderItem={({item}) =>
           <TouchableOpacity
-            style={[styles.row, {backgroundColor: item.color}]}
+            style={[styles.row, item.color && {backgroundColor: item.color}]}
             onPress={() => onItemPress ? onItemPress({item}) : false}
           >
             { name && <Text style={[styles.name, {color: ColorUtils.getTextColor(item.color)}]}>{item.name}</Text> }

@@ -3,12 +3,10 @@ import { Keyboard, StyleSheet, Text, View, TextInput, TouchableOpacity, Keyboard
 import List from '../components/List';
 import Lists from '../constants/Lists';
 import * as ColorUtils from '../utils/ColorUtils';
+import * as ListUtils from '../utils/ListUtils';
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-  },
-  list: {
     flex: 1,
   },
 });
@@ -30,8 +28,7 @@ class ListDetailsScreen extends React.Component {
   constructor(props) {
     super(props);
     let { items } = props.navigation.state.params;
-    console.log(items);
-    //items.sort(this.byName);
+    items.sort(ListUtils.byPickRate);
     this.state = {
       items: items,
     }
@@ -40,7 +37,7 @@ class ListDetailsScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <List 
+        <List
           data={this.state.items}
           name
           pickRate

@@ -12,9 +12,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     fontWeight: 'bold',
   },
-  list: {
-    flex: 1,
-  },
 });
 
 class ListSelectScreen extends React.Component {

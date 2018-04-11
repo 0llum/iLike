@@ -3,12 +3,11 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import List from '../components/List';
 import * as Colors from '../constants/Colors';
 import * as ColorUtils from '../utils/ColorUtils';
+import * as ListUtils from '../utils/ListUtils';
+import ProgressBar from 'react-native-progress/Bar';
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-  },
-  list: {
     flex: 1,
   },
   tiles: {
@@ -29,7 +28,6 @@ const styles = StyleSheet.create({
 });
 
 class TilesScreen extends React.Component {
-
   static navigationOptions = ({ navigation }) => {
     const params = navigation.state.params || {};
     return {
@@ -52,13 +50,14 @@ class TilesScreen extends React.Component {
       overall: 0,
       matches: [],
     }));
-    items.sort(this.byName);
-    shuffled = this.shuffle(items);
+    items.sort(ListUtils.byName);
+    shuffled = ListUtils.shuffle(items);
     this.state = {
       items: items,
       left: shuffled[0],
       right: shuffled[1],
       showTiles: true,
+      progress: 0,
     }
   }
 
@@ -125,11 +124,11 @@ class TilesScreen extends React.Component {
     } : el));
     
     // sort items by pickRate (inverse, because of how flatlist works)
-    items.sort(this.byPickRate);
+    items.sort(ListUtils.byPickRate);
 
     // create a shuffled copy of items
-    shuffled = this.shuffle(items);
-    shuffled.sort(this.byCount);
+    shuffled = ListUtils.shuffle(items);
+    shuffled.sort(ListUtils.byCount);
 
     let newLeft = shuffled[0];
     let newRight;
@@ -143,10 +142,13 @@ class TilesScreen extends React.Component {
       }
     }
 
+    const progress = this.state.progress + 1 / ListUtils.getCombinations(items);
+
     if (!newRight) {
       this.setState({
         items: items,
         showTiles: false,
+        progress: 1,
       })
       return;
     }
@@ -155,49 +157,8 @@ class TilesScreen extends React.Component {
       items: items,
       left: newLeft,
       right: newRight,
+      progress: progress,
     });
-
-    console.log(items);
-  }
-
-  byName = (a, b) => {
-    const nameA = a.name.toUpperCase();
-    const nameB = b.name.toUpperCase();
-    
-    if (nameA < nameB) {
-      return -1;
-    }
-    
-    if (nameA > nameB) {
-      return 1;
-    }
-  
-    return 0;
-  }
-
-  byPickRate = (a, b) => {
-    if (a.pickRate < b.pickRate) {
-      return 1;
-    }
-
-    if (a.pickRate > b.pickRate) {
-      return -1;
-    }
-
-    return this.byName(a, b);
-  }
-
-  byCount = (a, b) => {
-    return a.count - b.count;
-  }
-
-  shuffle(a) {
-    b = a.slice();
-    for (let i = b.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [b[i], b[j]] = [b[j], b[i]];
-    }
-    return b;
   }
 
   onItemPress = (item) => {
@@ -211,13 +172,13 @@ class TilesScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-      <List 
-        data={this.state.items}
-        onItemPress={(item) => this.onItemPress(item)}
-        name
-        pickRate
-        overall
-      />
+        <List
+          data={this.state.items}
+          onItemPress={(item) => this.onItemPress(item)}
+          name
+          pickRate
+          overall
+        />
         {this.state.showTiles && <View style={styles.tiles}>
           <TouchableOpacity 
             style={[styles.tile, {backgroundColor: this.state.left.color}]}
@@ -236,6 +197,12 @@ class TilesScreen extends React.Component {
             </Text>
           </TouchableOpacity>
         </View>}
+        {this.state.showTiles && <ProgressBar
+          progress={this.state.progress}
+          width={null}
+          borderRadius={0}
+          borderWidth={0}
+        />}
       </View>
     );
   }
