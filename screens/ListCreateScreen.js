@@ -71,9 +71,8 @@ class ListCreateScreen extends React.Component {
       items: [...this.state.items, {
         id: id,
         name: this.state.text,
-        rank: 0,
+        picks: 0,
         count: 0,
-        pickRate: 0,
         overall: 0
       }],
       text: "",

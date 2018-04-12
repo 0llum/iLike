@@ -14,11 +14,14 @@ export function byName(a, b) {
 }
 
 export function byPickRate(a, b) {
-  if (a.pickRate < b.pickRate) {
+  pickrateA = a.count > 0 ? a.picks / a.count : 0;
+  pickrateB = b.count > 0 ? b.picks / b.count : 0;
+
+  if (pickrateA < pickrateB) {
     return 1;
   }
 
-  if (a.pickRate > b.pickRate) {
+  if (pickrateA > pickrateB) {
     return -1;
   }
 

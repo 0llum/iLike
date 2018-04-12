@@ -60,6 +60,7 @@ class ListSelectScreen extends React.Component {
         <List 
           data={this.state.items}
           onItemPress={(item) => this.onItemPress(item)}
+          image
           name
           entries
         />

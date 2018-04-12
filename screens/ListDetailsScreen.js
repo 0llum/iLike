@@ -39,6 +39,7 @@ class ListDetailsScreen extends React.Component {
       <View style={styles.container}>
         <List
           data={this.state.items}
+          image
           name
           pickRate
         />

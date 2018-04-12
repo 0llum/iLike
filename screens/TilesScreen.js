@@ -1,10 +1,12 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ImageBackground } from 'react-native';
 import List from '../components/List';
 import * as Colors from '../constants/Colors';
 import * as ColorUtils from '../utils/ColorUtils';
 import * as ListUtils from '../utils/ListUtils';
 import ProgressBar from 'react-native-progress/Bar';
+import ColorTile from '../components/ColorTile';
+import ImageTile from '../components/ImageTile';
 
 const styles = StyleSheet.create({
   container: {
@@ -18,12 +20,18 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 100,
     justifyContent: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.2)'
+    backgroundColor: Colors.white,
+  },
+  tileImage: {
+    flex: 1,
+    justifyContent: 'flex-end',
   },
   tileText: {
     textAlign: 'center',
     fontSize: 24,
     fontWeight: 'bold',
+    color: Colors.white,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
 });
 
@@ -45,8 +53,7 @@ class TilesScreen extends React.Component {
     items = items.map(el => ({
       ...el,
       count: 0,
-      rank: 0,
-      pickRate: 0,
+      picks: 0,
       overall: 0,
       matches: [],
     }));
@@ -73,19 +80,19 @@ class TilesScreen extends React.Component {
     left.matches = [...left.matches, {
       id: this.state.right.id,
       name: this.state.right.name,
+      image: this.state.right.image,
       color: this.state.right.color,
       count: 0,
-      rank: 0,
-      pickRate: 0,
+      picks: 0,
     }];
 
     right.matches = [...right.matches, {
       id: this.state.left.id,
       name: this.state.left.name,
+      image: this.state.left.image,
       color: this.state.left.color,
       count: 0,
-      rank: 0,
-      pickRate: 0,
+      picks: 0,
     }];
 
     rightMatch = right.matches.find(x => x.id === this.state.left.id);
@@ -95,20 +102,12 @@ class TilesScreen extends React.Component {
     leftMatch.count = leftMatch.count + 1;
 
     if (num === 0) {
-      left.rank = left.rank + 1;
-      rightMatch.rank = rightMatch.rank + 1;
+      left.picks = left.picks + 1;
+      rightMatch.picks = rightMatch.picks + 1;
     } else {
-      right.rank = right.rank + 1;
-      leftMatch.rank = leftMatch.rank + 1;
+      right.picks = right.picks + 1;
+      leftMatch.picks = leftMatch.picks + 1;
     }
-
-    leftMatch.pickRate = leftMatch.rank / leftMatch.count;
-    rightMatch.pickRate = rightMatch.rank / rightMatch.count;
-
-    items = items.map(el => (el.count > 0 ? {
-      ...el,
-      pickRate: el.rank / el.count
-    } : el));
 
     let countSum = 0;
     items.forEach(el => {
@@ -117,7 +116,7 @@ class TilesScreen extends React.Component {
 
     items = items.map(el => (countSum > 0 ? {
       ...el,
-      overall: el.rank * 2 / countSum
+      overall: el.picks * 2 / countSum
     } : el));
     
     items.sort(ListUtils.byPickRate);
@@ -157,9 +156,11 @@ class TilesScreen extends React.Component {
   }
 
   onItemPress = (item) => {
+    console.log(item.item.color);
+    console.log(this.props.navigation.state.params.color);
     this.props.navigation.navigate('Details', {
       name: item.item.name,
-      color: item.item.color,
+      color: item.item.color || this.props.navigation.state.params.color,
       items: item.item.matches,
     });
   }
@@ -170,26 +171,26 @@ class TilesScreen extends React.Component {
         <List
           data={this.state.items}
           onItemPress={(item) => this.onItemPress(item)}
+          image
           name
           pickRate
-          overall
         />
         {this.state.showTiles && <View style={styles.tiles}>
           <TouchableOpacity 
-            style={[styles.tile, {backgroundColor: this.state.left.color}]}
+            style={[styles.tile, this.state.left.color && {backgroundColor: this.state.left.color}]}
             onPress={() => this.onPressTile(0)}
           >
-            <Text style={[styles.tileText, {color: ColorUtils.getTextColor(this.state.left.color)}]}>
-              {this.state.left.name}
-            </Text>
+          {this.state.left.image
+            ? <ImageTile image={this.state.left.image}>{this.state.left.name}</ImageTile>
+            : <ColorTile color={this.state.left.color}>{this.state.left.name}</ColorTile>}
           </TouchableOpacity>
           <TouchableOpacity 
-            style={[styles.tile, {backgroundColor: this.state.right.color}]}
+            style={[styles.tile, this.state.right.color && {backgroundColor: this.state.right.color}]}
             onPress={() => this.onPressTile(1)}
           >
-            <Text style={[styles.tileText, {color: ColorUtils.getTextColor(this.state.right.color)}]}>
-              {this.state.right.name}
-            </Text>
+            {this.state.right.image
+              ? <ImageTile image={this.state.right.image}>{this.state.right.name}</ImageTile>
+              : <ColorTile color={this.state.right.color}>{this.state.right.name}</ColorTile>}
           </TouchableOpacity>
         </View>}
         {this.state.showTiles && <ProgressBar
@@ -197,6 +198,7 @@ class TilesScreen extends React.Component {
           width={null}
           borderRadius={0}
           borderWidth={0}
+          color={Colors.accent}
         />}
       </View>
     );
