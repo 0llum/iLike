@@ -7,7 +7,6 @@ const styles = StyleSheet.create({
   list: {
     flex: 1,
     paddingHorizontal: 5,
-    marginVertical: 5,
     backgroundColor: Colors.white,
   },
   separator: {

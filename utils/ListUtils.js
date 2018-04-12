@@ -28,8 +28,20 @@ export function byPickRate(a, b) {
   return byName(a, b);
 }
 
-export function byCount(a, b) {
+export function byCountAsc(a, b) {
   return a.count - b.count;
+}
+
+export function byCountDesc(a, b) {
+  return b.count - a.count;
+}
+
+export function byPicksAsc(a, b) {
+  return a.picks - b.picks;
+}
+
+export function byPicks65Desc(a, b) {
+  return b.picks - a.picks;
 }
 
 export function shuffle(array) {

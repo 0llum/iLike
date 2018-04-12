@@ -15,6 +15,7 @@ const styles = StyleSheet.create({
   tiles: {
     flexDirection: 'row',
     justifyContent: 'center',
+    marginTop: 5,
   },
   tile: {
     flex: 1,
@@ -33,6 +34,9 @@ const styles = StyleSheet.create({
     color: Colors.white,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
+  tileDivider: {
+    width: 5,
+  }
 });
 
 class TilesScreen extends React.Component {
@@ -122,7 +126,7 @@ class TilesScreen extends React.Component {
     items.sort(ListUtils.byPickRate);
 
     shuffled = ListUtils.shuffle(items);
-    shuffled.sort(ListUtils.byCount);
+    shuffled.sort(ListUtils.byCountAsc);
 
     let newLeft = shuffled[0];
     let newRight;
@@ -156,8 +160,6 @@ class TilesScreen extends React.Component {
   }
 
   onItemPress = (item) => {
-    console.log(item.item.color);
-    console.log(this.props.navigation.state.params.color);
     this.props.navigation.navigate('Details', {
       name: item.item.name,
       color: item.item.color || this.props.navigation.state.params.color,
@@ -184,6 +186,7 @@ class TilesScreen extends React.Component {
             ? <ImageTile image={this.state.left.image}>{this.state.left.name}</ImageTile>
             : <ColorTile color={this.state.left.color}>{this.state.left.name}</ColorTile>}
           </TouchableOpacity>
+          <View style={styles.tileDivider} />
           <TouchableOpacity 
             style={[styles.tile, this.state.right.color && {backgroundColor: this.state.right.color}]}
             onPress={() => this.onPressTile(1)}

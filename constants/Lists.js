@@ -339,4 +339,19 @@ export default [{
     {id: 150, name: 'Mewtu'},
     {id: 151, name: 'Mew'},
   ]
+}, {
+  id: 14,
+  name: 'Guild Wars 2 Classes',
+  image: 'https://pixelcritics.com/wp-content/uploads/2017/03/guild-wars_2_logo-810x400.jpg',
+  data: [
+    {id: 0, name: 'Guardian', image: 'https://wiki.guildwars2.com/images/c/cc/Guardian_icon.png'},
+    {id: 1, name: 'Revenant', image: 'https://wiki.guildwars2.com/images/8/89/Revenant_icon.png'},
+    {id: 2, name: 'Warrior', image: 'https://wiki.guildwars2.com/images/c/c8/Warrior_icon.png'},
+    {id: 3, name: 'Engineer', image: 'https://wiki.guildwars2.com/images/4/41/Engineer_icon.png'},
+    {id: 4, name: 'Ranger', image: 'https://wiki.guildwars2.com/images/9/9c/Ranger_icon.png'},
+    {id: 5, name: 'Thief', image: 'https://wiki.guildwars2.com/images/d/d8/Thief_icon.png'},
+    {id: 6, name: 'Elementalist', image: 'https://wiki.guildwars2.com/images/a/a2/Elementalist_icon.png'},
+    {id: 7, name: 'Mesmer', image: 'https://wiki.guildwars2.com/images/3/3a/Mesmer_icon.png'},
+    {id: 8, name: 'Necromancer', image: 'https://wiki.guildwars2.com/images/6/62/Necromancer_icon.png'},
+  ]
 }];
