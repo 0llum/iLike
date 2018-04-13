@@ -1,7 +1,6 @@
 import React from 'react';
 import { Keyboard, StyleSheet, Text, View, TextInput, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import List from '../components/List';
-import Lists from '../constants/Lists';
 
 const styles = StyleSheet.create({
   container: {
@@ -32,7 +31,8 @@ class ListSelectScreen extends React.Component {
   constructor() {
     super();
     this.state = {
-      items: Lists,
+      items: [],
+      refreshing: false,
     }
   }
 
@@ -42,8 +42,33 @@ class ListSelectScreen extends React.Component {
     })
   }
 
+  componentDidMount() {
+    this.fetchLists();
+  }
+
   navigateToListCreateScreen = () => {
     this.props.navigation.navigate('ListCreate');
+  }
+
+  fetchLists() {
+    this.setState({
+      refreshing: true,
+    })
+
+    const request = new Request('http://0llum.de:3000/lists');
+    return fetch(request)
+      .then(response => response.json())
+      .then(responseJson => {
+        this.setState({
+          items: responseJson,
+          refreshing: false,
+        });
+      })
+      .catch(error => console.log(error));
+  }
+
+  onRefresh = () => {
+    this.fetchLists();
   }
 
   onItemPress = (item) => {
@@ -60,6 +85,8 @@ class ListSelectScreen extends React.Component {
         <List 
           data={this.state.items}
           onItemPress={(item) => this.onItemPress(item)}
+          onRefresh={this.onRefresh}
+          refreshing={this.state.refreshing}
           image
           name
           entries

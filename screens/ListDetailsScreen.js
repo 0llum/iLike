@@ -1,7 +1,6 @@
 import React from 'react';
 import { Keyboard, StyleSheet, Text, View, TextInput, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import List from '../components/List';
-import Lists from '../constants/Lists';
 import * as ColorUtils from '../utils/ColorUtils';
 import * as ListUtils from '../utils/ListUtils';
 

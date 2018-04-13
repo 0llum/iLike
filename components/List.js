@@ -77,6 +77,8 @@ class List extends React.Component {
       overall,
       entries,
       onItemPress,
+      onRefresh,
+      refreshing,
     } = this.props;
 
     return (
@@ -86,6 +88,8 @@ class List extends React.Component {
         extraData={data}
         keyExtractor={(item, index) => item.id.toString()}
         showsVerticalScrollIndicator={false}
+        onRefresh={onRefresh ? onRefresh : false}
+        refreshing={refreshing}
         ListHeaderComponent={
           header && <View style={styles.header}>
             { rank && <Text style={[styles.rank, { fontWeight: 'bold' }]}>Rank</Text>}
