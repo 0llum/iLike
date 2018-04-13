@@ -86,7 +86,7 @@ class List extends React.Component {
         style={styles.list}
         data={data}
         extraData={data}
-        keyExtractor={(item, index) => item.id.toString()}
+        keyExtractor={(item, index) => item.id}
         showsVerticalScrollIndicator={false}
         onRefresh={onRefresh ? onRefresh : false}
         refreshing={refreshing}
@@ -120,7 +120,7 @@ class List extends React.Component {
             { picks && <Text style={styles.number}>{item.picks}</Text> }
             { pickRate && <Text style={styles.number}>{item.count > 0 ? Math.round(item.picks / item.count * 100) : 0}%</Text> }
             { overall && <Text style={styles.number}>{Math.round(item.overall * 100)}%</Text> }
-            { entries && <Text style={styles.number}>{item.data.length}</Text> }
+            { entries && <Text style={styles.number}>{item.items.length}</Text> }
           </TouchableOpacity>
         }
         ItemSeparatorComponent={() =>

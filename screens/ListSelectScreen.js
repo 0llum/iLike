@@ -75,7 +75,7 @@ class ListSelectScreen extends React.Component {
     this.props.navigation.navigate('Tiles', {
       name: item.item.name,
       color: item.item.color,
-      items: item.item.data,
+      items: item.item.items,
     });
   }
 
