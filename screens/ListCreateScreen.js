@@ -32,7 +32,7 @@ class ListCreateScreen extends React.Component {
     return {
       headerTitle: 'ListScreen',
       headerRight:
-        <TouchableOpacity onPress={params.navigateToTilesScreen}>
+        <TouchableOpacity onPress={params.navigateToListSelectScreen}>
           <Text style={styles.addButton}>GO</Text>
         </TouchableOpacity>,
     };
@@ -44,21 +44,33 @@ class ListCreateScreen extends React.Component {
       name: 'New List',
       items: [],
       text: '',
-      id: 0,
     }
   }
 
   componentWillMount() {
     this.props.navigation.setParams({
-      navigateToTilesScreen: this.navigateToTilesScreen,
+      navigateToListSelectScreen: this.navigateToListSelectScreen,
     })
   }
 
-  navigateToTilesScreen = () => {
-    this.props.navigation.navigate('Tiles', {
-      name: this.state.name,
-      items: this.state.items
+  navigateToListSelectScreen = () => {
+    const request = new Request('http://0llum.de:3000/lists', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: this.state.name,
+        items: this.state.items,
+      }),
     });
+    return fetch(request)
+      .then(response => response.json())
+      .then(responseJson => {
+        this.props.navigation.navigate('ListSelect');
+      })
+      .catch(error => console.log(error));
   }
 
   onChangeText = (value) => {
@@ -66,17 +78,11 @@ class ListCreateScreen extends React.Component {
   }
 
   onPressAdd = () => {
-    const id = this.state.id;
     this.setState({
       items: [...this.state.items, {
-        id: id,
         name: this.state.text,
-        picks: 0,
-        count: 0,
-        overall: 0
       }],
       text: "",
-      id: id + 1,
     });
     Keyboard.dismiss();
   }

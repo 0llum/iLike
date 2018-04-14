@@ -86,7 +86,7 @@ class List extends React.Component {
         style={styles.list}
         data={data}
         extraData={data}
-        keyExtractor={(item, index) => item.id}
+        keyExtractor={(item, index) => item._id}
         showsVerticalScrollIndicator={false}
         onRefresh={onRefresh ? onRefresh : false}
         refreshing={refreshing}

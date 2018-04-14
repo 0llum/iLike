@@ -48,12 +48,17 @@ class TilesScreen extends React.Component {
         backgroundColor: params.color || Colors.white,
       },
       headerTintColor: ColorUtils.getTextColor(params.color),
+      headerRight:
+        <TouchableOpacity onPress={params.navigateToListResultsScreen}
+        >
+          <Text style={styles.headerButton}>-></Text>
+        </TouchableOpacity>,
     }
   };
 
   constructor(props) {
     super(props);
-    let { items } = props.navigation.state.params;
+    let { id, items } = props.navigation.state.params;
     items = items.map(el => ({
       ...el,
       count: 0,
@@ -64,6 +69,7 @@ class TilesScreen extends React.Component {
     items.sort(ListUtils.byName);
     shuffled = ListUtils.shuffle(items);
     this.state = {
+      id: id,
       items: items,
       left: shuffled[0],
       right: shuffled[1],
@@ -72,17 +78,60 @@ class TilesScreen extends React.Component {
     }
   }
 
+  componentWillMount() {
+    this.props.navigation.setParams({ 
+      navigateToListResultsScreen: this.navigateToListResultsScreen,
+    })
+  }
+
+  navigateToListResultsScreen = () => {
+    this.props.navigation.navigate('ListResults', {
+      id: this.state.id,
+      name: this.props.navigation.state.params.name,
+      color: this.props.navigation.state.params.color
+    });
+  }
+
+  increaseCount(itemId) {
+    fetch('http://0llum.de:3000/lists/' + this.state.id + '/' + itemId, {
+      method: 'PATCH',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        count: 1,
+      }),
+    });
+  }
+
+  increasePicks(itemId) {
+    fetch('http://0llum.de:3000/lists/' + this.state.id + '/' + itemId, {
+      method: 'PATCH',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        picks: 1,
+      }),
+    });
+  }
+
   onPressTile = (num) => {
     let items = this.state.items;
 
-    let left = items.find(x => x.id === this.state.left.id);
-    let right = items.find(x => x.id === this.state.right.id);
+    let left = items.find(x => x._id === this.state.left._id);
+    let right = items.find(x => x._id === this.state.right._id);
 
     left.count = left.count + 1;
     right.count = right.count + 1;
 
+    this.increaseCount(this.state.left._id);
+    this.increaseCount(this.state.right._id);
+
     left.matches = [...left.matches, {
-      id: this.state.right.id,
+      _id: this.state.right._id,
       name: this.state.right.name,
       image: this.state.right.image,
       color: this.state.right.color,
@@ -91,7 +140,7 @@ class TilesScreen extends React.Component {
     }];
 
     right.matches = [...right.matches, {
-      id: this.state.left.id,
+      _id: this.state.left._id,
       name: this.state.left.name,
       image: this.state.left.image,
       color: this.state.left.color,
@@ -99,8 +148,8 @@ class TilesScreen extends React.Component {
       picks: 0,
     }];
 
-    rightMatch = right.matches.find(x => x.id === this.state.left.id);
-    leftMatch = left.matches.find(x => x.id === this.state.right.id);
+    rightMatch = right.matches.find(x => x._id === this.state.left._id);
+    leftMatch = left.matches.find(x => x._id === this.state.right._id);
 
     rightMatch.count = rightMatch.count + 1;
     leftMatch.count = leftMatch.count + 1;
@@ -108,9 +157,11 @@ class TilesScreen extends React.Component {
     if (num === 0) {
       left.picks = left.picks + 1;
       rightMatch.picks = rightMatch.picks + 1;
+      this.increasePicks(this.state.left._id);
     } else {
       right.picks = right.picks + 1;
       leftMatch.picks = leftMatch.picks + 1;
+      this.increasePicks(this.state.right._id);
     }
 
     let countSum = 0;
@@ -132,8 +183,8 @@ class TilesScreen extends React.Component {
     let newRight;
 
     for (let i = 1; i < shuffled.length; i++) {
-      matchLeft = newLeft.matches.find(x => x.id === shuffled[i].id);
-      matchRight = shuffled[i].matches.find(x => x.id === newLeft.id);
+      matchLeft = newLeft.matches.find(x => x._id === shuffled[i]._id);
+      matchRight = shuffled[i].matches.find(x => x._id === newLeft._id);
       if (!matchLeft && !matchRight) {
         newRight = shuffled[i];
         break;

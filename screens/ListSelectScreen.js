@@ -76,6 +76,7 @@ class ListSelectScreen extends React.Component {
       name: item.item.name,
       color: item.item.color,
       items: item.item.items,
+      id: item.item._id,
     });
   }
 
