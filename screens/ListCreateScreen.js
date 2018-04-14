@@ -40,7 +40,17 @@ class ListCreateScreen extends React.Component {
    const params = navigation.state.params || {};
 
     return {
-      headerTitle: 'ListScreen',
+      headerTitle:
+      <View style={styles.inputBar}>
+          <TextInput
+            style={styles.inputField}
+            placeholder="Enter Title"
+            onChangeText={(text) => params.onChangeTitle(text)}
+            value={params.name}
+            selectionColor={Colors.accent}
+            underlineColorAndroid={Colors.accent}
+          />
+        </View>,
       headerRight:
         <TouchableOpacity style ={styles.headerImageContainer} onPress={params.navigateToListSelectScreen}>
           <Image style={[styles.headerImage, {tintColor: ColorUtils.getTextColor(params.color)}]} source={ArrowRight}/>
@@ -51,7 +61,7 @@ class ListCreateScreen extends React.Component {
   constructor() {
     super();
     this.state = {
-      name: 'New List',
+      name: '',
       items: [],
       text: '',
     }
@@ -60,6 +70,8 @@ class ListCreateScreen extends React.Component {
   componentWillMount() {
     this.props.navigation.setParams({
       navigateToListSelectScreen: this.navigateToListSelectScreen,
+      onChangeTitle: this.onChangeTitle,
+      title: this.state.name,
     })
   }
 
@@ -85,6 +97,10 @@ class ListCreateScreen extends React.Component {
 
   onChangeText = (value) => {
     this.setState({text: value})
+  }
+
+  onChangeTitle = (value) => {
+    this.setState({name: value})
   }
 
   onPressAdd = () => {
