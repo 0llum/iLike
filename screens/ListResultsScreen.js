@@ -1,41 +1,13 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, ImageBackground } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import List from '../components/List';
 import * as Colors from '../constants/Colors';
 import * as ColorUtils from '../utils/ColorUtils';
 import * as ListUtils from '../utils/ListUtils';
-import ProgressBar from 'react-native-progress/Bar';
-import ColorTile from '../components/ColorTile';
-import ImageTile from '../components/ImageTile';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  tiles: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginTop: 5,
-  },
-  tile: {
-    flex: 1,
-    height: 100,
-    justifyContent: 'center',
-    backgroundColor: Colors.white,
-  },
-  tileImage: {
-    flex: 1,
-    justifyContent: 'flex-end',
-  },
-  tileText: {
-    textAlign: 'center',
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: Colors.white,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
-  tileDivider: {
-    width: 5,
   }
 });
 
@@ -47,12 +19,7 @@ class TilesScreen extends React.Component {
       headerStyle: {
         backgroundColor: params.color || Colors.white,
       },
-      headerTintColor: ColorUtils.getTextColor(params.color),
-      headerRight:
-        <TouchableOpacity onPress={params.navigateToListResultsScreen}
-        >
-          <Text style={styles.headerButton}>-></Text>
-        </TouchableOpacity>,
+      headerTintColor: ColorUtils.getTextColor(params.color)
     }
   };
 
@@ -89,7 +56,7 @@ class TilesScreen extends React.Component {
   }
 
   onRefresh = () => {
-    this.fetchLists();
+    this.fetchResults();
   }
 
   render() {

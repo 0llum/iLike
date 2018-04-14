@@ -1,27 +1,37 @@
 import React from 'react';
-import { Keyboard, StyleSheet, Text, View, TextInput, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
+import { Keyboard, StyleSheet, Text, View, TextInput, TouchableOpacity, KeyboardAvoidingView, Image } from 'react-native';
 import List from '../components/List';
+import * as Colors from '../constants/Colors';
+import * as ColorUtils from '../utils/ColorUtils';
+import ArrowRight from '../assets/arrow_right.png';
+import Plus from '../assets/plus.png';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  headerImageContainer: {
+    justifyContent: 'center',
+    padding: 10,
+  },
+  headerImage: {
+    width: 24,
+    height: 24,
   },
   list: {
     flex: 1,
   },
   inputBar: {
     width: '100%',
-    height: 40,
+    height: 50,
     flexDirection: 'row',
-    paddingHorizontal: 10,
+    paddingLeft: 10,
+    marginTop: 5,
+    backgroundColor: Colors.white,
   },
   inputField: {
     flex: 1,
-  },
-  addButton: {
-    padding: 10,
-    justifyContent: 'center',
-  },
+  }
 });
 
 class ListCreateScreen extends React.Component {
@@ -32,9 +42,9 @@ class ListCreateScreen extends React.Component {
     return {
       headerTitle: 'ListScreen',
       headerRight:
-        <TouchableOpacity onPress={params.navigateToListSelectScreen}>
-          <Text style={styles.addButton}>GO</Text>
-        </TouchableOpacity>,
+        <TouchableOpacity style ={styles.headerImageContainer} onPress={params.navigateToListSelectScreen}>
+          <Image style={[styles.headerImage, {tintColor: ColorUtils.getTextColor(params.color)}]} source={ArrowRight}/>
+        </TouchableOpacity>
     };
   };
 
@@ -89,10 +99,7 @@ class ListCreateScreen extends React.Component {
 
   render() {
     return (
-      <KeyboardAvoidingView 
-        style={styles.container}
-        behavior={"padding"}
-      >
+      <KeyboardAvoidingView style={styles.container} behavior="padding" keyboardVerticalOffset={80}>
         <List 
           data={this.state.items}
           name
@@ -103,12 +110,11 @@ class ListCreateScreen extends React.Component {
             placeholder="Add some data"
             onChangeText={(text) => this.onChangeText(text)}
             value={this.state.text}
+            selectionColor={Colors.accent}
+            underlineColorAndroid={Colors.accent}
           />
-          <TouchableOpacity 
-            style={styles.addButton}
-            onPress={this.onPressAdd}
-          >
-            <Text>ADD</Text>
+          <TouchableOpacity style ={styles.headerImageContainer} onPress={this.onPressAdd}>
+            <Image style={[styles.headerImage, {tintColor: Colors.black}]} source={Plus}/>
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>

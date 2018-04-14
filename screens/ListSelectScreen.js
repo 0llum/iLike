@@ -1,15 +1,20 @@
 import React from 'react';
-import { Keyboard, StyleSheet, Text, View, TextInput, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
+import { Keyboard, StyleSheet, Text, View, TextInput, TouchableOpacity, KeyboardAvoidingView, Image } from 'react-native';
 import List from '../components/List';
+import * as ColorUtils from '../utils/ColorUtils';
+import Plus from '../assets/plus.png';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  headerButton: {
-    padding: 15,
+  headerImageContainer: {
     justifyContent: 'center',
-    fontWeight: 'bold',
+    padding: 10,
+  },
+  headerImage: {
+    width: 24,
+    height: 24,
   },
 });
 
@@ -21,10 +26,9 @@ class ListSelectScreen extends React.Component {
     return {
       headerTitle: 'Select a list or create one',
       headerRight:
-        <TouchableOpacity onPress={params.navigateToListCreateScreen}
-        >
-          <Text style={styles.headerButton}>+</Text>
-        </TouchableOpacity>,
+      <TouchableOpacity style ={styles.headerImageContainer} onPress={params.navigateToListCreateScreen}>
+        <Image style={[styles.headerImage, {tintColor: ColorUtils.getTextColor(params.color)}]} source={Plus}/>
+      </TouchableOpacity>
     };
   };
 

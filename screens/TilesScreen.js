@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, ImageBackground } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ImageBackground, Image } from 'react-native';
 import List from '../components/List';
 import * as Colors from '../constants/Colors';
 import * as ColorUtils from '../utils/ColorUtils';
@@ -7,10 +7,19 @@ import * as ListUtils from '../utils/ListUtils';
 import ProgressBar from 'react-native-progress/Bar';
 import ColorTile from '../components/ColorTile';
 import ImageTile from '../components/ImageTile';
+import ArrowRight from '../assets/arrow_right.png';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  headerImageContainer: {
+    justifyContent: 'center',
+    padding: 10,
+  },
+  headerImage: {
+    width: 24,
+    height: 24,
   },
   tiles: {
     flexDirection: 'row',
@@ -49,10 +58,9 @@ class TilesScreen extends React.Component {
       },
       headerTintColor: ColorUtils.getTextColor(params.color),
       headerRight:
-        <TouchableOpacity onPress={params.navigateToListResultsScreen}
-        >
-          <Text style={styles.headerButton}>-></Text>
-        </TouchableOpacity>,
+        <TouchableOpacity style ={styles.headerImageContainer} onPress={params.navigateToListResultsScreen}>
+          <Image style={[styles.headerImage, {tintColor: ColorUtils.getTextColor(params.color)}]} source={ArrowRight}/>
+        </TouchableOpacity>
     }
   };
 
