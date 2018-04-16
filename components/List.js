@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image } from 'react-native';
 import * as Colors from '../constants/Colors';
 import * as ColorUtils from '../utils/ColorUtils';
+import Minus from '../assets/minus.png';
 
 const styles = StyleSheet.create({
   list: {
@@ -61,6 +62,11 @@ const styles = StyleSheet.create({
     padding: 5,
     textAlign: 'right',
   },
+  deleteButton: {
+    width: 30,
+    height: 30,
+    tintColor: Colors.red,
+  }
 });
 
 class List extends React.Component {
@@ -77,6 +83,7 @@ class List extends React.Component {
       overall,
       entries,
       onItemPress,
+      onDeletePress,
       onRefresh,
       refreshing,
     } = this.props;
@@ -105,7 +112,7 @@ class List extends React.Component {
         renderItem={({item, index}) =>
           <TouchableOpacity
             style={styles.row}
-            onPress={() => onItemPress ? onItemPress({item}) : false}
+            onPress={() => onItemPress ? onItemPress(item) : false}
           >
             { rank && <Text style={styles.rank}>{index}</Text>}
             { image && <View style={styles.imageContainer}>
@@ -121,6 +128,9 @@ class List extends React.Component {
             { pickRate && <Text style={styles.number}>{item.count > 0 ? Math.round(item.picks / item.count * 100) : 0}%</Text> }
             { overall && <Text style={styles.number}>{Math.round(item.overall * 100)}%</Text> }
             { entries && <Text style={styles.number}>{item.items.length}</Text> }
+            { onDeletePress && <TouchableOpacity style={styles.imageContainer } onPress={() => onDeletePress(index)}>
+                <Image style={styles.deleteButton} source={Minus}/>
+            </TouchableOpacity> }
           </TouchableOpacity>
         }
         ItemSeparatorComponent={() =>

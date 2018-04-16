@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, ImageBackground, Image } from 'react-native';
+import HeaderImage from '../components/HeaderImage';
 import List from '../components/List';
 import * as Colors from '../constants/Colors';
 import * as ColorUtils from '../utils/ColorUtils';
@@ -12,14 +13,6 @@ import ArrowRight from '../assets/arrow_right.png';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  headerImageContainer: {
-    justifyContent: 'center',
-    padding: 10,
-  },
-  headerImage: {
-    width: 24,
-    height: 24,
   },
   tiles: {
     flexDirection: 'row',
@@ -57,10 +50,7 @@ class TilesScreen extends React.Component {
         backgroundColor: params.color || Colors.white,
       },
       headerTintColor: ColorUtils.getTextColor(params.color),
-      headerRight:
-        <TouchableOpacity style ={styles.headerImageContainer} onPress={params.navigateToListResultsScreen}>
-          <Image style={[styles.headerImage, {tintColor: ColorUtils.getTextColor(params.color)}]} source={ArrowRight}/>
-        </TouchableOpacity>
+      headerRight: <HeaderImage onPress={params.navigateToListResultsScreen} color={params.color} image={ArrowRight} />
     }
   };
 
@@ -220,9 +210,9 @@ class TilesScreen extends React.Component {
 
   onItemPress = (item) => {
     this.props.navigation.navigate('Details', {
-      name: item.item.name,
-      color: item.item.color || this.props.navigation.state.params.color,
-      items: item.item.matches,
+      name: item.name,
+      color: item.color || this.props.navigation.state.params.color,
+      items: item.matches,
     });
   }
 

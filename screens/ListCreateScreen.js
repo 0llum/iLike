@@ -1,5 +1,6 @@
 import React from 'react';
 import { Keyboard, StyleSheet, Text, View, TextInput, TouchableOpacity, KeyboardAvoidingView, Image } from 'react-native';
+import HeaderImage from '../components/HeaderImage';
 import List from '../components/List';
 import * as Colors from '../constants/Colors';
 import * as ColorUtils from '../utils/ColorUtils';
@@ -9,14 +10,6 @@ import Plus from '../assets/plus.png';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  headerImageContainer: {
-    justifyContent: 'center',
-    padding: 10,
-  },
-  headerImage: {
-    width: 24,
-    height: 24,
   },
   list: {
     flex: 1,
@@ -31,7 +24,7 @@ const styles = StyleSheet.create({
   },
   inputField: {
     flex: 1,
-  }
+  },
 });
 
 class ListCreateScreen extends React.Component {
@@ -51,10 +44,7 @@ class ListCreateScreen extends React.Component {
             underlineColorAndroid={Colors.accent}
           />
         </View>,
-      headerRight:
-        <TouchableOpacity style ={styles.headerImageContainer} onPress={params.navigateToListSelectScreen}>
-          <Image style={[styles.headerImage, {tintColor: ColorUtils.getTextColor(params.color)}]} source={ArrowRight}/>
-        </TouchableOpacity>
+      headerRight: <HeaderImage onPress={params.navigateToListSelectScreen} color={params.color} image={ArrowRight} />
     };
   };
 
@@ -113,12 +103,22 @@ class ListCreateScreen extends React.Component {
     Keyboard.dismiss();
   }
 
+  onPressDelete = (index) => {
+    console.log(index);
+    let items = this.state.items;
+    items.splice(index, 1);
+    this.setState({
+      items: items,
+    });
+  }
+
   render() {
     return (
       <KeyboardAvoidingView style={styles.container} behavior="padding" keyboardVerticalOffset={80}>
         <List 
           data={this.state.items}
           name
+          onDeletePress={(index) => this.onPressDelete(index)}
         />
         <View style={styles.inputBar}>
           <TextInput
@@ -129,9 +129,7 @@ class ListCreateScreen extends React.Component {
             selectionColor={Colors.accent}
             underlineColorAndroid={Colors.accent}
           />
-          <TouchableOpacity style ={styles.headerImageContainer} onPress={this.onPressAdd}>
-            <Image style={[styles.headerImage, {tintColor: Colors.black}]} source={Plus}/>
-          </TouchableOpacity>
+          <HeaderImage onPress={this.onPressAdd} image={Plus} />
         </View>
       </KeyboardAvoidingView>
     );
