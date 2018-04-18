@@ -27,7 +27,7 @@ class ListDetailsScreen extends React.Component {
   constructor(props) {
     super(props);
     let { items } = props.navigation.state.params;
-    items.sort(ListUtils.byPickRate);
+    items.sort(ListUtils.byPickRateDesc);
     this.state = {
       items: items,
     }
