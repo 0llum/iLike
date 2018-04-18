@@ -39,7 +39,13 @@ class TilesScreen extends React.Component {
   fetchResults() {
     this.setState({
       refreshing: true,
-    })
+    });
+
+    setTimeout(() => {
+      this.setState({
+        refreshing: false,
+      });
+    }, 10000);
 
     return fetch('http://0llum.de:3000/lists/' + this.state.id)
       .then(response => response.json())
@@ -67,6 +73,8 @@ class TilesScreen extends React.Component {
           refreshing={this.state.refreshing}
           image
           name
+          count
+          picks
           pickRate
         />
       </View>

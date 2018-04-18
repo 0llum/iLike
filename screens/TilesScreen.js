@@ -146,6 +146,7 @@ class TilesScreen extends React.Component {
       overall: el.picks * 2 / countSum
     } : el));
     
+    items.sort(ListUtils.byNameAsc);
     items.sort(ListUtils.byPickRateDesc);
     const progress = this.state.progress + 1 / ListUtils.getCombinations(items);
 
@@ -186,6 +187,8 @@ class TilesScreen extends React.Component {
           onItemPress={(item) => this.onItemPress(item)}
           image
           name
+          count
+          picks
           pickRate
         />
         {this.state.showTiles && <View style={styles.tiles}>
