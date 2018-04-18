@@ -89,7 +89,6 @@ export function getCombinations(array) {
 
 export function findUnmatchedPair(array, element) {
   for (let i = 0; i < array.length; i++) {
-    console.log(element.name, array[i].name);
     if (element === array[i]) {
       continue;
     }
