@@ -12,7 +12,7 @@ export function hexToRGB(color) {
   rgb.b = parseInt(color.substring(4), 16);
 
   return rgb;
- };
+}
 
 export function getBrightness(color) {
   if (!color) {

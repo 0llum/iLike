@@ -1,5 +1,5 @@
 import React from 'react';
-import { Keyboard, StyleSheet, Text, View, TextInput, TouchableOpacity, KeyboardAvoidingView, Image } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import HeaderImage from '../components/HeaderImage';
 import List from '../components/List';
 import * as ColorUtils from '../utils/ColorUtils';

@@ -117,6 +117,7 @@ class ListCreateScreen extends React.Component {
       <KeyboardAvoidingView style={styles.container} behavior="padding" keyboardVerticalOffset={80}>
         <List 
           data={this.state.items}
+          image
           name
           onDeletePress={(index) => this.onPressDelete(index)}
         />

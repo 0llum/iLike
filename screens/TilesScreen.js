@@ -1,10 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, ImageBackground, Image } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import HeaderImage from '../components/HeaderImage';
 import List from '../components/List';
 import * as Colors from '../constants/Colors';
 import * as ColorUtils from '../utils/ColorUtils';
 import * as ListUtils from '../utils/ListUtils';
+import * as DbUtils from '../utils/DbUtils';
 import ProgressBar from 'react-native-progress/Bar';
 import ColorTile from '../components/ColorTile';
 import ImageTile from '../components/ImageTile';
@@ -90,32 +91,6 @@ class TilesScreen extends React.Component {
     });
   }
 
-  increaseCount(itemId) {
-    fetch('http://0llum.de:3000/lists/' + this.state.id + '/' + itemId, {
-      method: 'PATCH',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        count: 1,
-      }),
-    });
-  }
-
-  increasePicks(itemId) {
-    fetch('http://0llum.de:3000/lists/' + this.state.id + '/' + itemId, {
-      method: 'PATCH',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        picks: 1,
-      }),
-    });
-  }
-
   onPressTile = (num) => {
     let items = this.state.items;
 
@@ -124,9 +99,6 @@ class TilesScreen extends React.Component {
 
     left.count = left.count + 1;
     right.count = right.count + 1;
-
-    this.increaseCount(this.state.left._id);
-    this.increaseCount(this.state.right._id);
 
     left.matches = [...left.matches, {
       _id: this.state.right._id,
@@ -155,11 +127,13 @@ class TilesScreen extends React.Component {
     if (num === 0) {
       left.picks = left.picks + 1;
       rightMatch.picks = rightMatch.picks + 1;
-      this.increasePicks(this.state.left._id);
+      DbUtils.increaseItemPicks(this.state.id, this.state.left._id);
+      DbUtils.increaseItemCount(this.state.id, this.state.right._id);
     } else {
       right.picks = right.picks + 1;
       leftMatch.picks = leftMatch.picks + 1;
-      this.increasePicks(this.state.right._id);
+      DbUtils.increaseItemPicks(this.state.id, this.state.right._id);
+      DbUtils.increaseItemCount(this.state.id, this.state.left._id);
     }
 
     let countSum = 0;
@@ -196,7 +170,9 @@ class TilesScreen extends React.Component {
         items: items,
         showTiles: false,
         progress: 1,
-      })
+      });
+
+      DbUtils.increaseCount(this.state.id);
       return;
     }
 
