@@ -1,4 +1,4 @@
-export function byName(a, b) {
+export function byNameAsc(a, b) {
   const nameA = a.name.toUpperCase();
   const nameB = b.name.toUpperCase();
   
@@ -13,7 +13,37 @@ export function byName(a, b) {
   return 0;
 }
 
-export function byPickRate(a, b) {
+export function byNameDesc(a, b) {
+  const nameA = a.name.toUpperCase();
+  const nameB = b.name.toUpperCase();
+  
+  if (nameA < nameB) {
+    return 1;
+  }
+  
+  if (nameA > nameB) {
+    return -1;
+  }
+
+  return 0;
+}
+
+export function byPickRateAsc(a, b) {
+  pickrateA = a.count > 0 ? a.picks / a.count : 0;
+  pickrateB = b.count > 0 ? b.picks / b.count : 0;
+
+  if (pickrateA < pickrateB) {
+    return -1;
+  }
+
+  if (pickrateA > pickrateB) {
+    return 1;
+  }
+
+  return 0;
+}
+
+export function byPickRateDesc(a, b) {
   pickrateA = a.count > 0 ? a.picks / a.count : 0;
   pickrateB = b.count > 0 ? b.picks / b.count : 0;
 
@@ -25,7 +55,7 @@ export function byPickRate(a, b) {
     return -1;
   }
 
-  return byName(a, b);
+  return 0;
 }
 
 export function byCountAsc(a, b) {
@@ -40,7 +70,7 @@ export function byPicksAsc(a, b) {
   return a.picks - b.picks;
 }
 
-export function byPicks65Desc(a, b) {
+export function byPicksDesc(a, b) {
   return b.picks - a.picks;
 }
 
@@ -55,4 +85,20 @@ export function shuffle(array) {
 
 export function getCombinations(array) {
   return array.length * (array.length - 1) / 2;
+}
+
+export function findUnmatchedPair(array, element) {
+  for (let i = 0; i < array.length; i++) {
+    console.log(element.name, array[i].name);
+    if (element === array[i]) {
+      continue;
+    }
+    matchLeft = element.matches.find(x => x._id === array[i]._id);
+    matchRight = array[i].matches.find(x => x._id === element._id);
+    if (!matchLeft && !matchRight) {
+      return array[i];
+    }
+  }
+
+  return null;
 }

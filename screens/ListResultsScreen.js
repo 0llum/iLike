@@ -41,12 +41,11 @@ class TilesScreen extends React.Component {
       refreshing: true,
     })
 
-    const request = new Request('http://0llum.de:3000/lists/' + this.state.id);
-    return fetch(request)
+    return fetch('http://0llum.de:3000/lists/' + this.state.id)
       .then(response => response.json())
       .then(responseJson => {
         let items = responseJson.items;
-        items.sort(ListUtils.byPickRate);
+        items.sort(ListUtils.byPickRateDesc);
         this.setState({
           items: items,
           refreshing: false,

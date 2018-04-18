@@ -65,7 +65,7 @@ class TilesScreen extends React.Component {
       overall: 0,
       matches: [],
     }));
-    items.sort(ListUtils.byName);
+    items.sort(ListUtils.byNameAsc);
     shuffled = ListUtils.shuffle(items);
     this.state = {
       id: id,
@@ -146,19 +146,19 @@ class TilesScreen extends React.Component {
       overall: el.picks * 2 / countSum
     } : el));
     
-    items.sort(ListUtils.byPickRate);
+    items.sort(ListUtils.byPickRateDesc);
 
     shuffled = ListUtils.shuffle(items);
-    shuffled.sort(ListUtils.byCountAsc);
+    shuffled.sort(ListUtils.byPickRateDesc);
 
-    let newLeft = shuffled[0];
+    let newLeft;
     let newRight;
 
-    for (let i = 1; i < shuffled.length; i++) {
-      matchLeft = newLeft.matches.find(x => x._id === shuffled[i]._id);
-      matchRight = shuffled[i].matches.find(x => x._id === newLeft._id);
-      if (!matchLeft && !matchRight) {
-        newRight = shuffled[i];
+    for (let i = 0; i < shuffled.length; i++) {
+      newLeft = shuffled[i];
+      newRight = ListUtils.findUnmatchedPair(shuffled, newLeft);
+
+      if (newRight) {
         break;
       }
     }
@@ -178,8 +178,8 @@ class TilesScreen extends React.Component {
 
     this.setState({
       items: items,
-      left: newLeft,
-      right: newRight,
+      left: num === 0 ? newLeft : newRight,
+      right: num === 0 ? newRight : newLeft,
       progress: progress,
     });
   }
