@@ -147,25 +147,11 @@ class TilesScreen extends React.Component {
     } : el));
     
     items.sort(ListUtils.byPickRateDesc);
-
-    shuffled = ListUtils.shuffle(items);
-    shuffled.sort(ListUtils.byPickRateDesc);
-
-    let newLeft;
-    let newRight;
-
-    for (let i = 0; i < shuffled.length; i++) {
-      newLeft = shuffled[i];
-      newRight = ListUtils.findUnmatchedPair(shuffled, newLeft);
-
-      if (newRight) {
-        break;
-      }
-    }
-
     const progress = this.state.progress + 1 / ListUtils.getCombinations(items);
 
-    if (!newRight) {
+    let pair = ListUtils.getMostPickedLeastCommonPair(items);
+
+    if (!pair) {
       this.setState({
         items: items,
         showTiles: false,
@@ -178,8 +164,8 @@ class TilesScreen extends React.Component {
 
     this.setState({
       items: items,
-      left: num === 0 ? newLeft : newRight,
-      right: num === 0 ? newRight : newLeft,
+      left: num === 0 ? pair[0] : pair[1],
+      right: num === 0 ? pair[1] : pair[0],
       progress: progress,
     });
   }

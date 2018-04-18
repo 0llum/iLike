@@ -101,3 +101,55 @@ export function findUnmatchedPair(array, element) {
 
   return null;
 }
+
+export function getLeastCommonPair(array) {
+  array = shuffle(array);
+  array.sort(byCountAsc);
+
+  let left = array[0];
+  let right = findUnmatchedPair(array, left);
+
+  if (left && right) {
+    return [left, right];
+  }
+
+  return null;
+}
+
+export function getMostPickedPair(array) {
+  array = shuffle(array);
+  array.sort(byPickRateDesc);
+  
+  let left;
+  let right;
+
+  for (let i = 0; i < shuffled.length; i++) {
+    left = array[i];
+    right = findUnmatchedPair(array, left);
+
+    if (right) {
+      break;
+    }
+  }
+
+  if (left && right) {
+    return [left, right];
+  }
+
+  return null;
+}
+
+export function getMostPickedLeastCommonPair(array) {
+  array = shuffle(array);
+  array.sort(byPickRateDesc);
+  array.sort(byCountAsc);
+
+  let left = array[0];
+  let right = findUnmatchedPair(array, left);
+
+  if (left && right) {
+    return [left, right];
+  }
+
+  return null;
+}
