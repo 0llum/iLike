@@ -64,11 +64,22 @@ class TilesScreen extends React.Component {
     this.fetchResults();
   }
 
+  onItemPress = (item) => {
+    console.log(item);
+    this.props.navigation.navigate('Details', {
+      id: this.state.id,
+      itemId: item._id,
+      name: item.name,
+      color: item.color || this.props.navigation.state.params.color,
+    });
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <List
           data={this.state.items}
+          onItemPress={(item) => this.onItemPress(item)}
           onRefresh={this.onRefresh}
           refreshing={this.state.refreshing}
           image

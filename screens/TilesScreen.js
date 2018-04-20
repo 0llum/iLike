@@ -129,11 +129,15 @@ class TilesScreen extends React.Component {
       rightMatch.picks = rightMatch.picks + 1;
       DbUtils.increaseItemPicks(this.state.id, this.state.left._id);
       DbUtils.increaseItemCount(this.state.id, this.state.right._id);
+      DbUtils.increaseItemMatchPicks(this.state.id, this.state.right._id, this.state.left._id);
+      DbUtils.increaseItemMatchCount(this.state.id, this.state.left._id, this.state.right._id);
     } else {
       right.picks = right.picks + 1;
       leftMatch.picks = leftMatch.picks + 1;
       DbUtils.increaseItemPicks(this.state.id, this.state.right._id);
       DbUtils.increaseItemCount(this.state.id, this.state.left._id);
+      DbUtils.increaseItemMatchPicks(this.state.id, this.state.left._id, this.state.right._id);
+      DbUtils.increaseItemMatchCount(this.state.id, this.state.right._id, this.state.left._id);
     }
 
     let countSum = 0;
@@ -184,7 +188,6 @@ class TilesScreen extends React.Component {
       <View style={styles.container}>
         <List
           data={this.state.items}
-          onItemPress={(item) => this.onItemPress(item)}
           image
           name
           count
