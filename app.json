@@ -3,13 +3,13 @@
     "name": "iLike",
     "icon": "./assets/star_button.png",
     "version": "1.0.0",
-    "slug": "your-app-slug",
+    "slug": "iLike",
     "sdkVersion": "26.0.0",
     "ios": {
-      "bundleIdentifier": "com.0llum.iLike"
+      "bundleIdentifier": "com.ollum.iLike"
     },
     "android": {
-      "package": "com.0llum.iLike"
+      "package": "com.ollum.iLike"
     }
   }
 }
