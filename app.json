@@ -1,5 +1,15 @@
 {
   "expo": {
-    "sdkVersion": "26.0.0"
+    "name": "iLike",
+    "icon": "./path/to/your/app-icon.png",
+    "version": "1.0.0",
+    "slug": "your-app-slug",
+    "sdkVersion": "26.0.0",
+    "ios": {
+      "bundleIdentifier": "com.0llum.iLike"
+    },
+    "android": {
+      "package": "com.0llum.iLike"
+    }
   }
 }
