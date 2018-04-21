@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "iLike",
-    "icon": "./path/to/your/app-icon.png",
+    "icon": "./assets/star_button.png",
     "version": "1.0.0",
     "slug": "your-app-slug",
     "sdkVersion": "26.0.0",
