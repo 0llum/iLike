@@ -1,17 +1,21 @@
 import React from 'react';
-import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image } from 'react-native';
+import { Dimensions, StyleSheet, Text, View, FlatList, TouchableOpacity, Image } from 'react-native';
+import ProgressBar from 'react-native-progress/Bar';
 import * as Colors from '../constants/Colors';
 import * as ColorUtils from '../utils/ColorUtils';
 import Minus from '../assets/minus.png';
 
 const styles = StyleSheet.create({
   list: {
-    flex: 1,
-    paddingHorizontal: 5,
+    backgroundColor: Colors.white,
+  },
+  listContainer: {
     backgroundColor: Colors.white,
   },
   separator: {
+    width: '100%',
     height: 1,
+    alignSelf: 'center',
     backgroundColor: Colors.bright,
   },
   header: {
@@ -25,6 +29,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     height: 40,
+    paddingHorizontal: 5,
   },
   rank: {
     flex: 1,
@@ -66,10 +71,34 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     tintColor: Colors.red,
-  }
+  },
+  progressBar: {
+    flex: 4,
+    position: 'absolute',
+  },
 });
 
 class List extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      width: Dimensions.get('window').width,
+    }
+  }
+  componentDidMount() {
+    Dimensions.addEventListener('change', this.onOrientationChange);
+  }
+
+  componentWillUnmount() {
+    Dimensions.removeEventListener('change');
+  }
+
+  onOrientationChange = () => {
+    this.setState({
+      width: Dimensions.get('window').width,
+    });
+  }
+
   render() {
     const {
       data,
@@ -86,11 +115,13 @@ class List extends React.Component {
       onDeletePress,
       onRefresh,
       refreshing,
+      progress,
     } = this.props;
 
     return (
-      <FlatList 
+      <FlatList
         style={styles.list}
+        contentContainerStyle={styles.listContainer}
         data={data}
         extraData={data}
         keyExtractor={(item, index) => item._id}
@@ -110,28 +141,39 @@ class List extends React.Component {
           </View>
         }
         renderItem={({item, index}) =>
-          <TouchableOpacity
-            style={styles.row}
-            onPress={() => onItemPress ? onItemPress(item) : false}
-          >
-            { rank && <Text style={styles.rank}>{index}</Text>}
-            { image && <View style={styles.imageContainer}>
-              {item.image
-                ? <Image style={styles.image} source={{uri: item.image}}/>
-                : <View style={[styles.color, item.color && {backgroundColor: item.color}]}>
-                  <Text style={[styles.firstLetter, item.color && {color: ColorUtils.getTextColor(item.color)}]}>{item.name.substring(0, 1).toUpperCase()}</Text>
-                </View>}
-            </View>}
-            { name && <Text style={styles.name} numberOfLines={1}>{item.name}</Text> }
-            { count && <Text style={styles.number}>{item.count}</Text> }
-            { picks && <Text style={styles.number}>{item.picks}</Text> }
-            { pickRate && <Text style={styles.number}>{item.count > 0 ? Math.round(item.picks / item.count * 100) : 0}%</Text> }
-            { overall && <Text style={styles.number}>{Math.round(item.overall * 100)}%</Text> }
-            { entries && <Text style={styles.number}>{item.items.length}</Text> }
-            { onDeletePress && <TouchableOpacity style={styles.imageContainer } onPress={() => onDeletePress(index)}>
-                <Image style={styles.deleteButton} source={Minus}/>
-            </TouchableOpacity> }
-          </TouchableOpacity>
+          <View>
+            { progress && <ProgressBar
+              style={styles.progressBar}
+              progress={item.count > 0 ? item.picks / item.count : 0}
+              width={this.state.width}
+              height={40}
+              borderRadius={0}
+              borderWidth={0}
+              color={Colors.brighter}
+            /> }
+            <TouchableOpacity
+              style={styles.row}
+              onPress={() => onItemPress ? onItemPress(item) : false}
+            >
+              { rank && <Text style={styles.rank}>{index}</Text>}
+              { image && <View style={styles.imageContainer}>
+                {item.image
+                  ? <Image style={styles.image} source={{uri: item.image}}/>
+                  : <View style={[styles.color, item.color && {backgroundColor: item.color}]}>
+                    <Text style={[styles.firstLetter, item.color && {color: ColorUtils.getTextColor(item.color)}]}>{item.name.substring(0, 1).toUpperCase()}</Text>
+                  </View>}
+              </View>}
+              { name && <Text style={styles.name} numberOfLines={1}>{item.name}</Text> }
+              { count && <Text style={styles.number}>{item.count}</Text> }
+              { picks && <Text style={styles.number}>{item.picks}</Text> }
+              { pickRate && <Text style={styles.number}>{item.count > 0 ? Math.round(item.picks / item.count * 100) : 0}%</Text> }
+              { overall && <Text style={styles.number}>{Math.round(item.overall * 100)}%</Text> }
+              { entries && <Text style={styles.number}>{item.items.length}</Text> }
+              { onDeletePress && <TouchableOpacity style={styles.imageContainer } onPress={() => onDeletePress(index)}>
+                  <Image style={styles.deleteButton} source={Minus}/>
+              </TouchableOpacity> }
+            </TouchableOpacity>
+          </View>
         }
         ItemSeparatorComponent={() =>
           <View style={styles.separator}/>

@@ -11,9 +11,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  list: {
-    flex: 1,
-  },
   inputBar: {
     width: '100%',
     height: 50,

@@ -190,9 +190,8 @@ class TilesScreen extends React.Component {
           data={this.state.items}
           image
           name
-          count
-          picks
           pickRate
+          progress
         />
         {this.state.showTiles && <View style={styles.tiles}>
           <TouchableOpacity 

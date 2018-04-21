@@ -84,9 +84,8 @@ class TilesScreen extends React.Component {
           refreshing={this.state.refreshing}
           image
           name
-          count
-          picks
           pickRate
+          progress
         />
       </View>
     );

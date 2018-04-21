@@ -1,6 +1,7 @@
 import React from 'react';
 import { Keyboard, StyleSheet, Text, View, TextInput, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import List from '../components/List';
+import * as Colors from '../constants/Colors';
 import * as ColorUtils from '../utils/ColorUtils';
 import * as ListUtils from '../utils/ListUtils';
 
@@ -18,7 +19,7 @@ class ListDetailsScreen extends React.Component {
     return {
       headerTitle: params.name,
       headerStyle: {
-        backgroundColor: params.color,
+        backgroundColor: params.color || Colors.white,
       },
       headerTintColor: ColorUtils.getTextColor(params.color),
     };
@@ -76,6 +77,7 @@ class ListDetailsScreen extends React.Component {
           image
           name
           pickRate
+          progress
         />
       </View>
     );
