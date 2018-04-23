@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import * as Colors from '../constants/Colors';
 import * as ColorUtils from '../utils/ColorUtils';
 
@@ -32,18 +32,22 @@ class Avatar extends React.Component {
       image,
       color,
       text,
+      onAvatarPress,
     } = this.props;
 
     return (
-      <View style={styles.imageContainer}>
-        {image
+      <TouchableOpacity 
+        style={styles.imageContainer}
+        onPress={(item) => onAvatarPress ? onAvatarPress(item) : false}
+      >
+        { image
           ? <Image style={styles.image} source={{uri: image}}/>
           : <View style={[styles.color, color && {backgroundColor: color}]}>
             <Text style={[styles.firstLetter, color && {color: ColorUtils.getTextColor(color)}]}>
               {text.substring(0, 1).toUpperCase()}
             </Text>
-          </View>}
-      </View>
+          </View> }
+      </TouchableOpacity>
     );
   }
 }

@@ -95,6 +95,7 @@ class List extends React.Component {
       pickRate,
       overall,
       entries,
+      onAvatarPress,
       onItemPress,
       onDeletePress,
       onRefresh,
@@ -140,7 +141,7 @@ class List extends React.Component {
               onPress={() => onItemPress ? onItemPress(item) : false}
             >
               { rank && <Text style={styles.rank}>{index}</Text>}
-              { image && <Avatar text={item.name} image={item.image} color={item.color} /> }
+              { image && <Avatar text={item.name} image={item.image} color={item.color} onAvatarPress onAvatarPress={() => onAvatarPress ? onAvatarPress(item) : false} /> }
               { name && <Text style={styles.name} numberOfLines={1}>{item.name}</Text> }
               { count && <Text style={styles.number}>{item.count}</Text> }
               { picks && <Text style={styles.number}>{item.picks}</Text> }

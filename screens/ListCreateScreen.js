@@ -100,8 +100,11 @@ class ListCreateScreen extends React.Component {
     Keyboard.dismiss();
   }
 
+  onAvatarPress = (item) => {
+    console.log(item);
+  }
+
   onPressDelete = (index) => {
-    console.log(index);
     let items = this.state.items;
     items.splice(index, 1);
     this.setState({
@@ -114,6 +117,7 @@ class ListCreateScreen extends React.Component {
       <KeyboardAvoidingView style={styles.container} behavior="padding" keyboardVerticalOffset={80}>
         <List 
           data={this.state.items}
+          onAvatarPress={(item) => this.onAvatarPress(item)}
           image
           name
           onDeletePress={(index) => this.onPressDelete(index)}
