@@ -1,5 +1,6 @@
 import React from 'react';
 import { Dimensions, StyleSheet, Text, View, FlatList, TouchableOpacity, Image } from 'react-native';
+import Avatar from '../components/Avatar';
 import ProgressBar from 'react-native-progress/Bar';
 import * as Colors from '../constants/Colors';
 import * as ColorUtils from '../utils/ColorUtils';
@@ -38,23 +39,6 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     padding: 5,
-  },
-  image: {
-    width: 30,
-    height: 30,
-    borderRadius: 100,
-  },
-  color: {
-    width: 30,
-    height: 30,
-    borderRadius: 100,
-    justifyContent: 'center',
-    backgroundColor: Colors.accent,
-  },
-  firstLetter: {
-    textAlign: 'center',
-    fontWeight: 'bold',
-    color: Colors.white,
   },
   name: {
     flex: 6,
@@ -156,13 +140,7 @@ class List extends React.Component {
               onPress={() => onItemPress ? onItemPress(item) : false}
             >
               { rank && <Text style={styles.rank}>{index}</Text>}
-              { image && <View style={styles.imageContainer}>
-                {item.image
-                  ? <Image style={styles.image} source={{uri: item.image}}/>
-                  : <View style={[styles.color, item.color && {backgroundColor: item.color}]}>
-                    <Text style={[styles.firstLetter, item.color && {color: ColorUtils.getTextColor(item.color)}]}>{item.name.substring(0, 1).toUpperCase()}</Text>
-                  </View>}
-              </View>}
+              { image && <Avatar text={item.name} image={item.image} color={item.color} /> }
               { name && <Text style={styles.name} numberOfLines={1}>{item.name}</Text> }
               { count && <Text style={styles.number}>{item.count}</Text> }
               { picks && <Text style={styles.number}>{item.picks}</Text> }
