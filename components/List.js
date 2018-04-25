@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dimensions, StyleSheet, Text, View, FlatList, TouchableOpacity, Image } from 'react-native';
+import { Dimensions, StyleSheet, Text, View, FlatList, TouchableOpacity, Image, UIManager, LayoutAnimation } from 'react-native';
 import Avatar from '../components/Avatar';
 import ProgressBar from 'react-native-progress/Bar';
 import * as Colors from '../constants/Colors';
@@ -68,13 +68,19 @@ class List extends React.Component {
     this.state = {
       width: Dimensions.get('window').width,
     }
+    UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
   }
+
   componentDidMount() {
     Dimensions.addEventListener('change', this.onOrientationChange);
   }
 
   componentWillUnmount() {
     Dimensions.removeEventListener('change');
+  }
+
+  componentWillUpdate() {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
   }
 
   onOrientationChange = () => {

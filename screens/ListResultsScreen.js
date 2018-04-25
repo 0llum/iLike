@@ -65,7 +65,6 @@ class TilesScreen extends React.Component {
   }
 
   onItemPress = (item) => {
-    console.log(item);
     this.props.navigation.navigate('Details', {
       id: this.state.id,
       itemId: item._id,

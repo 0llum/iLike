@@ -151,6 +151,7 @@ class TilesScreen extends React.Component {
     } : el));
     
     items.sort(ListUtils.byNameAsc);
+    items.sort(ListUtils.byPicksDesc);
     items.sort(ListUtils.byPickRateDesc);
     const progress = this.state.progress + 1 / ListUtils.getCombinations(items);
 
