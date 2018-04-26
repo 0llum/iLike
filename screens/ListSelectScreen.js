@@ -55,7 +55,7 @@ class ListSelectScreen extends React.Component {
       });
     }, 10000);
 
-    const request = new Request('http://0llum.de:3000/lists');
+    const request = new Request('https://api.0llum.de/lists');
     return fetch(request)
       .then(response => response.json())
       .then(responseJson => {

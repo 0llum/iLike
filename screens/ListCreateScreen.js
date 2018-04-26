@@ -63,7 +63,7 @@ class ListCreateScreen extends React.Component {
   }
 
   navigateToListSelectScreen = () => {
-    const request = new Request('http://0llum.de:3000/lists', {
+    const request = new Request('https://api.0llum.de/lists', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -101,7 +101,7 @@ class ListCreateScreen extends React.Component {
   }
 
   onAvatarPress = (item) => {
-    console.log(item);
+
   }
 
   onPressDelete = (index) => {

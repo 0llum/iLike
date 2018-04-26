@@ -50,7 +50,7 @@ class ListDetailsScreen extends React.Component {
       });
     }, 10000);
 
-    return fetch('http://0llum.de:3000/lists/' + this.state.id + '/' + this.state.itemId)
+    return fetch('https://api.0llum.de/lists/' + this.state.id + '/' + this.state.itemId)
       .then(response => response.json())
       .then(responseJson => {
         let matches = responseJson.matches;

@@ -47,7 +47,7 @@ class TilesScreen extends React.Component {
       });
     }, 10000);
 
-    return fetch('http://0llum.de:3000/lists/' + this.state.id)
+    return fetch('https://api.0llum.de/lists/' + this.state.id)
       .then(response => response.json())
       .then(responseJson => {
         let items = responseJson.items;
@@ -65,7 +65,6 @@ class TilesScreen extends React.Component {
   }
 
   onItemPress = (item) => {
-    console.log(item);
     this.props.navigation.navigate('Details', {
       id: this.state.id,
       itemId: item._id,
