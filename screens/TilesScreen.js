@@ -201,15 +201,14 @@ class TilesScreen extends React.Component {
       });
 
       body.count = 1;
-      return;
+    } else {
+      this.setState({
+        items: items,
+        left: num === 0 ? pair[0] : pair[1],
+        right: num === 0 ? pair[1] : pair[0],
+        progress: progress,
+      });
     }
-
-    this.setState({
-      items: items,
-      left: num === 0 ? pair[0] : pair[1],
-      right: num === 0 ? pair[1] : pair[0],
-      progress: progress,
-    });
 
     fetch('https://api.0llum.de/lists/' + listId, {
       method: 'PATCH',
