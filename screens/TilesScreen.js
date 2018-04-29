@@ -94,14 +94,17 @@ class TilesScreen extends React.Component {
   onPressTile = (num) => {
     let items = this.state.items;
 
-    let left = items.find(x => x._id === this.state.left._id);
-    let right = items.find(x => x._id === this.state.right._id);
+    const listId = this.state.id;
+    const leftId = this.state.left._id;
+    const rightId = this.state.right._id;
+    const left = items.find(x => x._id === leftId);
+    const right = items.find(x => x._id === rightId);
 
     left.count = left.count + 1;
     right.count = right.count + 1;
 
     left.matches = [...left.matches, {
-      _id: this.state.right._id,
+      _id: rightId,
       name: this.state.right.name,
       image: this.state.right.image,
       color: this.state.right.color,
@@ -110,7 +113,7 @@ class TilesScreen extends React.Component {
     }];
 
     right.matches = [...right.matches, {
-      _id: this.state.left._id,
+      _id: leftId,
       name: this.state.left.name,
       image: this.state.left.image,
       color: this.state.left.color,
@@ -118,26 +121,59 @@ class TilesScreen extends React.Component {
       picks: 0,
     }];
 
-    rightMatch = right.matches.find(x => x._id === this.state.left._id);
-    leftMatch = left.matches.find(x => x._id === this.state.right._id);
+    rightMatch = right.matches.find(x => x._id === leftId);
+    leftMatch = left.matches.find(x => x._id === rightId);
 
     rightMatch.count = rightMatch.count + 1;
     leftMatch.count = leftMatch.count + 1;
 
+    let body = {};
+    body.items = [];
+
     if (num === 0) {
       left.picks = left.picks + 1;
       rightMatch.picks = rightMatch.picks + 1;
-      DbUtils.increaseItemPicks(this.state.id, this.state.left._id);
-      DbUtils.increaseItemCount(this.state.id, this.state.right._id);
-      DbUtils.increaseItemMatchPicks(this.state.id, this.state.right._id, this.state.left._id);
-      DbUtils.increaseItemMatchCount(this.state.id, this.state.left._id, this.state.right._id);
+
+      body.items.push({
+        id: leftId,
+        count: 1,
+        picks: 1,
+        matches: [{
+          itemId: rightId,
+          count: 1,
+        }],
+      });
+      body.items.push({
+        id: rightId,
+        count: 1,
+        matches: [{
+          itemId: leftId,
+          count: 1,
+          picks: 1,
+        }],
+      });
     } else {
       right.picks = right.picks + 1;
       leftMatch.picks = leftMatch.picks + 1;
-      DbUtils.increaseItemPicks(this.state.id, this.state.right._id);
-      DbUtils.increaseItemCount(this.state.id, this.state.left._id);
-      DbUtils.increaseItemMatchPicks(this.state.id, this.state.left._id, this.state.right._id);
-      DbUtils.increaseItemMatchCount(this.state.id, this.state.right._id, this.state.left._id);
+
+      body.items.push({
+        id: rightId,
+        count: 1,
+        picks: 1,
+        matches: [{
+          itemId: leftId,
+          count: 1,
+        }],
+      });
+      body.items.push({
+        id: leftId,
+        count: 1,
+        matches: [{
+          itemId: rightId,
+          count: 1,
+          picks: 1,
+        }],
+      });
     }
 
     let countSum = 0;
@@ -164,7 +200,7 @@ class TilesScreen extends React.Component {
         progress: 1,
       });
 
-      DbUtils.increaseCount(this.state.id);
+      body.count = 1;
       return;
     }
 
@@ -173,6 +209,15 @@ class TilesScreen extends React.Component {
       left: num === 0 ? pair[0] : pair[1],
       right: num === 0 ? pair[1] : pair[0],
       progress: progress,
+    });
+
+    fetch('https://api.0llum.de/lists/' + listId, {
+      method: 'PATCH',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
     });
   }
 

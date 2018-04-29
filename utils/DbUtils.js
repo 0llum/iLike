@@ -20,6 +20,9 @@ export function increaseItemCount(listId, itemId) {
     },
     body: JSON.stringify({
       count: 1,
+      test: {
+        fetch: 3,
+      }
     }),
   });
 }
