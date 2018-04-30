@@ -31,7 +31,7 @@ class ListSelectScreen extends React.Component {
   }
 
   componentWillMount() {
-    this.props.navigation.setParams({ 
+    this.props.navigation.setParams({
       navigateToListCreateScreen: this.navigateToListCreateScreen,
     })
   }
@@ -77,7 +77,7 @@ class ListSelectScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <List 
+        <List
           data={this.state.items}
           onItemPress={(item) => this.onItemPress(item)}
           onRefresh={this.onRefresh}

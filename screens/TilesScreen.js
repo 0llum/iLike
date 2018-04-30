@@ -78,7 +78,7 @@ class TilesScreen extends React.Component {
   }
 
   componentWillMount() {
-    this.props.navigation.setParams({ 
+    this.props.navigation.setParams({
       navigateToListResultsScreen: this.navigateToListResultsScreen,
     })
   }
@@ -185,7 +185,7 @@ class TilesScreen extends React.Component {
       ...el,
       overall: el.picks * 2 / countSum
     } : el));
-    
+
     items.sort(ListUtils.byNameAsc);
     items.sort(ListUtils.byPicksDesc);
     items.sort(ListUtils.byPickRateDesc);
@@ -239,17 +239,17 @@ class TilesScreen extends React.Component {
           progress
         />
         {this.state.showTiles && <View style={styles.tiles}>
-          <TouchableOpacity 
-            style={[styles.tile, this.state.left.color && {backgroundColor: this.state.left.color}]}
+          <TouchableOpacity
+            style={[styles.tile, this.state.left.color && { backgroundColor: this.state.left.color }]}
             onPress={() => this.onPressTile(0)}
           >
-          {this.state.left.image
-            ? <ImageTile image={this.state.left.image}>{this.state.left.name}</ImageTile>
-            : <ColorTile color={this.state.left.color}>{this.state.left.name}</ColorTile>}
+            {this.state.left.image
+              ? <ImageTile image={this.state.left.image}>{this.state.left.name}</ImageTile>
+              : <ColorTile color={this.state.left.color}>{this.state.left.name}</ColorTile>}
           </TouchableOpacity>
           <View style={styles.tileDivider} />
-          <TouchableOpacity 
-            style={[styles.tile, this.state.right.color && {backgroundColor: this.state.right.color}]}
+          <TouchableOpacity
+            style={[styles.tile, this.state.right.color && { backgroundColor: this.state.right.color }]}
             onPress={() => this.onPressTile(1)}
           >
             {this.state.right.image

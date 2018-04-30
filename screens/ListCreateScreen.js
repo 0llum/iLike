@@ -27,11 +27,11 @@ const styles = StyleSheet.create({
 class ListCreateScreen extends React.Component {
 
   static navigationOptions = ({ navigation }) => {
-   const params = navigation.state.params || {};
+    const params = navigation.state.params || {};
 
     return {
       headerTitle:
-      <View style={styles.inputBar}>
+        <View style={styles.inputBar}>
           <TextInput
             style={styles.inputField}
             placeholder="Enter Title"
@@ -83,11 +83,11 @@ class ListCreateScreen extends React.Component {
   }
 
   onChangeText = (value) => {
-    this.setState({text: value})
+    this.setState({ text: value })
   }
 
   onChangeTitle = (value) => {
-    this.setState({name: value})
+    this.setState({ name: value })
   }
 
   onPressAdd = () => {
@@ -115,7 +115,7 @@ class ListCreateScreen extends React.Component {
   render() {
     return (
       <KeyboardAvoidingView style={styles.container} behavior="padding" keyboardVerticalOffset={80}>
-        <List 
+        <List
           data={this.state.items}
           onAvatarPress={(item) => this.onAvatarPress(item)}
           image
