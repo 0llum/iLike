@@ -41,12 +41,6 @@ class TilesScreen extends React.Component {
       refreshing: true,
     });
 
-    setTimeout(() => {
-      this.setState({
-        refreshing: false,
-      });
-    }, 10000);
-
     return fetch('https://api.0llum.de/lists/' + this.state.id)
       .then(response => response.json())
       .then(responseJson => {

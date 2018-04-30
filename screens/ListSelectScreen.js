@@ -49,12 +49,6 @@ class ListSelectScreen extends React.Component {
       refreshing: true,
     });
 
-    setTimeout(() => {
-      this.setState({
-        refreshing: false,
-      });
-    }, 10000);
-
     const request = new Request('https://api.0llum.de/lists');
     return fetch(request)
       .then(response => response.json())

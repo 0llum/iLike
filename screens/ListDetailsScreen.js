@@ -1,5 +1,5 @@
 import React from 'react';
-import { Keyboard, StyleSheet, Text, View, TextInput, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
+import { Keyboard, StyleSheet, View } from 'react-native';
 import List from '../components/List';
 import * as Colors from '../constants/Colors';
 import * as ColorUtils from '../utils/ColorUtils';
@@ -43,12 +43,6 @@ class ListDetailsScreen extends React.Component {
     this.setState({
       refreshing: true,
     });
-
-    setTimeout(() => {
-      this.setState({
-        refreshing: false,
-      });
-    }, 10000);
 
     return fetch('https://api.0llum.de/lists/' + this.state.id + '/' + this.state.itemId)
       .then(response => response.json())
