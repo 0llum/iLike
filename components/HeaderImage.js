@@ -16,18 +16,17 @@ const styles = StyleSheet.create({
 
 class HeaderImage extends React.Component {
   render() {
-    const {
-      color,
-      image,
-      onPress,
-    } = this.props;
+    const { color, image, onPress } = this.props;
     return (
-      <TouchableOpacity 
-        style ={styles.headerImageContainer}
-        onPress={() => onPress ? onPress() : false}
+      <TouchableOpacity
+        style={styles.headerImageContainer}
+        onPress={() => (onPress ? onPress() : false)}
       >
-        <Image 
-          style={[styles.headerImage, {tintColor: color ? ColorUtils.getTextColor(color) : Colors.black}]} 
+        <Image
+          style={[
+            styles.headerImage,
+            { tintColor: color ? ColorUtils.getTextColor(color) : Colors.black },
+          ]}
           source={image}
         />
       </TouchableOpacity>

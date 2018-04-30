@@ -8,7 +8,7 @@ import * as ListUtils from '../utils/ListUtils';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  }
+  },
 });
 
 class TilesScreen extends React.Component {
@@ -19,8 +19,8 @@ class TilesScreen extends React.Component {
       headerStyle: {
         backgroundColor: params.color || Colors.white,
       },
-      headerTintColor: ColorUtils.getTextColor(params.color)
-    }
+      headerTintColor: ColorUtils.getTextColor(params.color),
+    };
   };
 
   constructor(props) {
@@ -29,7 +29,7 @@ class TilesScreen extends React.Component {
       id: props.navigation.state.params.id,
       items: [],
       refreshing: false,
-    }
+    };
   }
 
   componentDidMount() {
@@ -56,23 +56,23 @@ class TilesScreen extends React.Component {
 
   onRefresh = () => {
     this.fetchResults();
-  }
+  };
 
-  onItemPress = (item) => {
+  onItemPress = item => {
     this.props.navigation.navigate('Details', {
       id: this.state.id,
       itemId: item._id,
       name: item.name,
       color: item.color || this.props.navigation.state.params.color,
     });
-  }
+  };
 
   render() {
     return (
       <View style={styles.container}>
         <List
           data={this.state.items}
-          onItemPress={(item) => this.onItemPress(item)}
+          onItemPress={item => this.onItemPress(item)}
           onRefresh={this.onRefresh}
           refreshing={this.state.refreshing}
           image

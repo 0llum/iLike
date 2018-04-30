@@ -2,7 +2,7 @@ import * as Colors from '../constants/Colors';
 
 export function hexToRGB(color) {
   if (color.substring(0, 1) == '#') {
-     color = color.substring(1);
+    color = color.substring(1);
   }
 
   const rgb = {};

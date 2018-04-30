@@ -1,11 +1,11 @@
 export function byNameAsc(a, b) {
   const nameA = a.name.toUpperCase();
   const nameB = b.name.toUpperCase();
-  
+
   if (nameA < nameB) {
     return -1;
   }
-  
+
   if (nameA > nameB) {
     return 1;
   }
@@ -16,11 +16,11 @@ export function byNameAsc(a, b) {
 export function byNameDesc(a, b) {
   const nameA = a.name.toUpperCase();
   const nameB = b.name.toUpperCase();
-  
+
   if (nameA < nameB) {
     return 1;
   }
-  
+
   if (nameA > nameB) {
     return -1;
   }
@@ -77,8 +77,8 @@ export function byPicksDesc(a, b) {
 export function shuffle(array) {
   copy = array.slice();
   for (let i = copy.length - 1; i > 0; i--) {
-      const rnd = Math.floor(Math.random() * (i + 1));
-      [copy[i], copy[rnd]] = [copy[rnd], copy[i]];
+    const rnd = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[rnd]] = [copy[rnd], copy[i]];
   }
   return copy;
 }
@@ -119,7 +119,7 @@ export function getLeastCommonPair(array) {
 export function getMostPickedPair(array) {
   array = shuffle(array);
   array.sort(byPickRateDesc);
-  
+
   let left;
   let right;
 

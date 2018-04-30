@@ -22,7 +22,7 @@ export function increaseItemCount(listId, itemId) {
       count: 1,
       test: {
         fetch: 3,
-      }
+      },
     }),
   });
 }

@@ -12,13 +12,18 @@ const styles = StyleSheet.create({
 });
 
 class ListSelectScreen extends React.Component {
-
   static navigationOptions = ({ navigation }) => {
     const params = navigation.state.params || {};
 
     return {
       headerTitle: 'Select a list or create one',
-      headerRight: <HeaderImage onPress={params.navigateToListCreateScreen} color={params.color} image={Plus} />
+      headerRight: (
+        <HeaderImage
+          onPress={params.navigateToListCreateScreen}
+          color={params.color}
+          image={Plus}
+        />
+      ),
     };
   };
 
@@ -27,13 +32,13 @@ class ListSelectScreen extends React.Component {
     this.state = {
       items: [],
       refreshing: false,
-    }
+    };
   }
 
   componentWillMount() {
     this.props.navigation.setParams({
       navigateToListCreateScreen: this.navigateToListCreateScreen,
-    })
+    });
   }
 
   componentDidMount() {
@@ -42,7 +47,7 @@ class ListSelectScreen extends React.Component {
 
   navigateToListCreateScreen = () => {
     this.props.navigation.navigate('ListCreate');
-  }
+  };
 
   fetchLists() {
     this.setState({
@@ -63,23 +68,23 @@ class ListSelectScreen extends React.Component {
 
   onRefresh = () => {
     this.fetchLists();
-  }
+  };
 
-  onItemPress = (item) => {
+  onItemPress = item => {
     this.props.navigation.navigate('Tiles', {
       name: item.name,
       color: item.color,
       items: item.items,
       id: item._id,
     });
-  }
+  };
 
   render() {
     return (
       <View style={styles.container}>
         <List
           data={this.state.items}
-          onItemPress={(item) => this.onItemPress(item)}
+          onItemPress={item => this.onItemPress(item)}
           onRefresh={this.onRefresh}
           refreshing={this.state.refreshing}
           image

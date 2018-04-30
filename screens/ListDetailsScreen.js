@@ -12,7 +12,6 @@ const styles = StyleSheet.create({
 });
 
 class ListDetailsScreen extends React.Component {
-
   static navigationOptions = ({ navigation }) => {
     const params = navigation.state.params || {};
 
@@ -32,7 +31,7 @@ class ListDetailsScreen extends React.Component {
       itemId: props.navigation.state.params.itemId,
       matches: [],
       refreshing: false,
-    }
+    };
   }
 
   componentDidMount() {
@@ -59,7 +58,7 @@ class ListDetailsScreen extends React.Component {
 
   onRefresh = () => {
     this.fetchDetails();
-  }
+  };
 
   render() {
     return (

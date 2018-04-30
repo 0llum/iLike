@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
 class ColorTile extends React.Component {
   render() {
     return (
-      <Text style={[styles.tileText, {color: ColorUtils.getTextColor(this.props.color)}]}>
+      <Text style={[styles.tileText, { color: ColorUtils.getTextColor(this.props.color) }]}>
         {this.props.children}
       </Text>
     );

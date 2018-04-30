@@ -1,5 +1,14 @@
 import React from 'react';
-import { Keyboard, StyleSheet, Text, View, TextInput, TouchableOpacity, KeyboardAvoidingView, Image } from 'react-native';
+import {
+  Keyboard,
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  Image,
+} from 'react-native';
 import HeaderImage from '../components/HeaderImage';
 import List from '../components/List';
 import * as Colors from '../constants/Colors';
@@ -25,23 +34,29 @@ const styles = StyleSheet.create({
 });
 
 class ListCreateScreen extends React.Component {
-
   static navigationOptions = ({ navigation }) => {
     const params = navigation.state.params || {};
 
     return {
-      headerTitle:
+      headerTitle: (
         <View style={styles.inputBar}>
           <TextInput
             style={styles.inputField}
             placeholder="Enter Title"
-            onChangeText={(text) => params.onChangeTitle(text)}
+            onChangeText={text => params.onChangeTitle(text)}
             value={params.name}
             selectionColor={Colors.accent}
             underlineColorAndroid={Colors.accent}
           />
-        </View>,
-      headerRight: <HeaderImage onPress={params.navigateToListSelectScreen} color={params.color} image={ArrowRight} />
+        </View>
+      ),
+      headerRight: (
+        <HeaderImage
+          onPress={params.navigateToListSelectScreen}
+          color={params.color}
+          image={ArrowRight}
+        />
+      ),
     };
   };
 
@@ -51,7 +66,7 @@ class ListCreateScreen extends React.Component {
       name: '',
       items: [],
       text: '',
-    }
+    };
   }
 
   componentWillMount() {
@@ -59,7 +74,7 @@ class ListCreateScreen extends React.Component {
       navigateToListSelectScreen: this.navigateToListSelectScreen,
       onChangeTitle: this.onChangeTitle,
       title: this.state.name,
-    })
+    });
   }
 
   navigateToListSelectScreen = () => {
@@ -80,53 +95,54 @@ class ListCreateScreen extends React.Component {
         this.props.navigation.navigate('ListSelect');
       })
       .catch(error => console.log(error));
-  }
+  };
 
-  onChangeText = (value) => {
-    this.setState({ text: value })
-  }
+  onChangeText = value => {
+    this.setState({ text: value });
+  };
 
-  onChangeTitle = (value) => {
-    this.setState({ name: value })
-  }
+  onChangeTitle = value => {
+    this.setState({ name: value });
+  };
 
   onPressAdd = () => {
     this.setState({
-      items: [...this.state.items, {
-        name: this.state.text,
-      }],
-      text: "",
+      items: [
+        ...this.state.items,
+        {
+          name: this.state.text,
+        },
+      ],
+      text: '',
     });
     Keyboard.dismiss();
-  }
+  };
 
-  onAvatarPress = (item) => {
+  onAvatarPress = item => {};
 
-  }
-
-  onPressDelete = (index) => {
+  onPressDelete = index => {
     let items = this.state.items;
     items.splice(index, 1);
     this.setState({
       items: items,
     });
-  }
+  };
 
   render() {
     return (
       <KeyboardAvoidingView style={styles.container} behavior="padding" keyboardVerticalOffset={80}>
         <List
           data={this.state.items}
-          onAvatarPress={(item) => this.onAvatarPress(item)}
+          onAvatarPress={item => this.onAvatarPress(item)}
           image
           name
-          onDeletePress={(index) => this.onPressDelete(index)}
+          onDeletePress={index => this.onPressDelete(index)}
         />
         <View style={styles.inputBar}>
           <TextInput
             style={styles.inputField}
             placeholder="Add some data"
-            onChangeText={(text) => this.onChangeText(text)}
+            onChangeText={text => this.onChangeText(text)}
             value={this.state.text}
             selectionColor={Colors.accent}
             underlineColorAndroid={Colors.accent}

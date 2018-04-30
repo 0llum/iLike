@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   image: {
-    resizeMode: 'cover'
+    resizeMode: 'cover',
   },
   text: {
     textAlign: 'center',
@@ -22,7 +22,11 @@ const styles = StyleSheet.create({
 class ImageTile extends React.Component {
   render() {
     return (
-      <ImageBackground style={styles.imageContainer} imageStyle={styles.image} source={{uri: this.props.image}}>
+      <ImageBackground
+        style={styles.imageContainer}
+        imageStyle={styles.image}
+        source={{ uri: this.props.image }}
+      >
         <Text style={styles.text} numberOfLines={2}>
           {this.props.children}
         </Text>
