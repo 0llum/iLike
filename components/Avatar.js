@@ -26,27 +26,27 @@ const styles = StyleSheet.create({
   },
 });
 
-class Avatar extends React.Component {
-  render() {
-    const { image, color, text, onAvatarPress } = this.props;
+const Avatar = (props) => {
+  const {
+    image, color, text, onAvatarPress,
+  } = props;
 
-    return (
-      <TouchableOpacity
-        style={styles.imageContainer}
-        onPress={item => (onAvatarPress ? onAvatarPress(item) : false)}
-      >
-        {image ? (
-          <Image style={styles.image} source={{ uri: image }} />
-        ) : (
-          <View style={[styles.color, color && { backgroundColor: color }]}>
-            <Text style={[styles.firstLetter, color && { color: ColorUtils.getTextColor(color) }]}>
-              {text.substring(0, 1).toUpperCase()}
-            </Text>
-          </View>
-        )}
-      </TouchableOpacity>
-    );
-  }
-}
+  return (
+    <TouchableOpacity
+      style={styles.imageContainer}
+      onPress={item => (onAvatarPress ? onAvatarPress(item) : false)}
+    >
+      {image ? (
+        <Image style={styles.image} source={{ uri: image }} />
+      ) : (
+        <View style={[styles.color, color && { backgroundColor: color }]}>
+          <Text style={[styles.firstLetter, color && { color: ColorUtils.getTextColor(color) }]}>
+            {text.substring(0, 1).toUpperCase()}
+          </Text>
+        </View>
+      )}
+    </TouchableOpacity>
+  );
+};
 
 export default Avatar;

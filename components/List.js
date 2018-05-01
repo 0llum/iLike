@@ -10,10 +10,9 @@ import {
   UIManager,
   LayoutAnimation,
 } from 'react-native';
-import Avatar from '../components/Avatar';
 import ProgressBar from 'react-native-progress/Bar';
+import Avatar from '../components/Avatar';
 import * as Colors from '../constants/Colors';
-import * as ColorUtils from '../utils/ColorUtils';
 import Minus from '../assets/minus.png';
 
 const styles = StyleSheet.create({
@@ -86,12 +85,12 @@ class List extends React.Component {
     Dimensions.addEventListener('change', this.onOrientationChange);
   }
 
-  componentWillUnmount() {
-    Dimensions.removeEventListener('change');
-  }
-
   componentWillUpdate() {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+  }
+
+  componentWillUnmount() {
+    Dimensions.removeEventListener('change');
   }
 
   onOrientationChange = () => {
@@ -126,9 +125,9 @@ class List extends React.Component {
         contentContainerStyle={styles.listContainer}
         data={data}
         extraData={data}
-        keyExtractor={(item, index) => item._id}
+        keyExtractor={item => item._id}
         showsVerticalScrollIndicator={false}
-        onRefresh={onRefresh ? onRefresh : false}
+        onRefresh={onRefresh || false}
         refreshing={refreshing}
         ListHeaderComponent={
           header && (
@@ -167,7 +166,6 @@ class List extends React.Component {
                   text={item.name}
                   image={item.image}
                   color={item.color}
-                  onAvatarPress
                   onAvatarPress={() => (onAvatarPress ? onAvatarPress(item) : false)}
                 />
               )}

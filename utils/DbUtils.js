@@ -1,5 +1,5 @@
 export function increaseCount(listId) {
-  fetch('https://api.0llum.de/lists/' + listId, {
+  fetch(`https://api.0llum.de/lists/${listId}`, {
     method: 'PATCH',
     headers: {
       Accept: 'application/json',
@@ -12,7 +12,7 @@ export function increaseCount(listId) {
 }
 
 export function increaseItemCount(listId, itemId) {
-  fetch('https://api.0llum.de/lists/' + listId + '/' + itemId, {
+  fetch(`https://api.0llum.de/lists/${listId}/${itemId}`, {
     method: 'PATCH',
     headers: {
       Accept: 'application/json',
@@ -28,7 +28,7 @@ export function increaseItemCount(listId, itemId) {
 }
 
 export function increaseItemPicks(listId, itemId) {
-  fetch('https://api.0llum.de/lists/' + listId + '/' + itemId, {
+  fetch(`https://api.0llum.de/lists/${listId}/${itemId}`, {
     method: 'PATCH',
     headers: {
       Accept: 'application/json',
@@ -42,7 +42,7 @@ export function increaseItemPicks(listId, itemId) {
 }
 
 export function increaseItemMatchCount(listId, itemId, matchId) {
-  fetch('https://api.0llum.de/lists/' + listId + '/' + itemId + '/' + matchId, {
+  fetch(`https://api.0llum.de/lists/${listId}/${itemId}/${matchId}`, {
     method: 'PATCH',
     headers: {
       Accept: 'application/json',
@@ -55,7 +55,7 @@ export function increaseItemMatchCount(listId, itemId, matchId) {
 }
 
 export function increaseItemMatchPicks(listId, itemId, matchId) {
-  fetch('https://api.0llum.de/lists/' + listId + '/' + itemId + '/' + matchId, {
+  fetch(`https://api.0llum.de/lists/${listId}/${itemId}/${matchId}`, {
     method: 'PATCH',
     headers: {
       Accept: 'application/json',

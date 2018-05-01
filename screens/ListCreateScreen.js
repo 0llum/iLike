@@ -1,18 +1,8 @@
 import React from 'react';
-import {
-  Keyboard,
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  TouchableOpacity,
-  KeyboardAvoidingView,
-  Image,
-} from 'react-native';
+import { Keyboard, StyleSheet, View, TextInput, KeyboardAvoidingView } from 'react-native';
 import HeaderImage from '../components/HeaderImage';
 import List from '../components/List';
 import * as Colors from '../constants/Colors';
-import * as ColorUtils from '../utils/ColorUtils';
 import ArrowRight from '../assets/arrow_right.png';
 import Plus from '../assets/plus.png';
 
@@ -77,31 +67,11 @@ class ListCreateScreen extends React.Component {
     });
   }
 
-  navigateToListSelectScreen = () => {
-    const request = new Request('https://api.0llum.de/lists', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        name: this.state.name,
-        items: this.state.items,
-      }),
-    });
-    return fetch(request)
-      .then(response => response.json())
-      .then(responseJson => {
-        this.props.navigation.navigate('ListSelect');
-      })
-      .catch(error => console.log(error));
-  };
-
-  onChangeText = value => {
+  onChangeText = (value) => {
     this.setState({ text: value });
   };
 
-  onChangeTitle = value => {
+  onChangeTitle = (value) => {
     this.setState({ name: value });
   };
 
@@ -118,14 +88,34 @@ class ListCreateScreen extends React.Component {
     Keyboard.dismiss();
   };
 
-  onAvatarPress = item => {};
+  onAvatarPress = (item) => {};
 
-  onPressDelete = index => {
-    let items = this.state.items;
+  onPressDelete = (index) => {
+    const { items } = this.state;
     items.splice(index, 1);
     this.setState({
-      items: items,
+      items,
     });
+  };
+
+  navigateToListSelectScreen = () => {
+    const request = new Request('https://api.0llum.de/lists', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: this.state.name,
+        items: this.state.items,
+      }),
+    });
+    return fetch(request)
+      .then(response => response.json())
+      .then((responseJson) => {
+        this.props.navigation.navigate('ListSelect');
+      })
+      .catch(error => console.log(error));
   };
 
   render() {

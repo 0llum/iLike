@@ -1,7 +1,7 @@
 import * as Colors from '../constants/Colors';
 
 export function hexToRGB(color) {
-  if (color.substring(0, 1) == '#') {
+  if (color.substring(0, 1) === '#') {
     color = color.substring(1);
   }
 
@@ -19,7 +19,7 @@ export function getBrightness(color) {
     return 255;
   }
 
-  rgb = hexToRGB(color);
+  const rgb = hexToRGB(color);
   return rgb.r * 0.299 + rgb.g * 0.587 + rgb.b * 0.114;
 }
 

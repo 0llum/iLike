@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, ImageBackground } from 'react-native';
+import { StyleSheet, Text, ImageBackground } from 'react-native';
 import * as Colors from '../constants/Colors';
 
 const styles = StyleSheet.create({
@@ -15,24 +15,23 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     color: Colors.white,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: Colors.black50,
   },
 });
 
-class ImageTile extends React.Component {
-  render() {
-    return (
-      <ImageBackground
-        style={styles.imageContainer}
-        imageStyle={styles.image}
-        source={{ uri: this.props.image }}
-      >
-        <Text style={styles.text} numberOfLines={2}>
-          {this.props.children}
-        </Text>
-      </ImageBackground>
-    );
-  }
-}
+const ImageTile = (props) => {
+  const { image, children } = props;
+  return (
+    <ImageBackground
+      style={styles.imageContainer}
+      imageStyle={styles.image}
+      source={{ uri: image }}
+    >
+      <Text style={styles.text} numberOfLines={2}>
+        {children}
+      </Text>
+    </ImageBackground>
+  );
+};
 
 export default ImageTile;

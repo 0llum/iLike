@@ -1,12 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, View, TouchableOpacity } from 'react-native';
+import ProgressBar from 'react-native-progress/Bar';
 import HeaderImage from '../components/HeaderImage';
 import List from '../components/List';
 import * as Colors from '../constants/Colors';
 import * as ColorUtils from '../utils/ColorUtils';
 import * as ListUtils from '../utils/ListUtils';
-import * as DbUtils from '../utils/DbUtils';
-import ProgressBar from 'react-native-progress/Bar';
 import ColorTile from '../components/ColorTile';
 import ImageTile from '../components/ImageTile';
 import ArrowRight from '../assets/arrow_right.png';
@@ -25,17 +24,6 @@ const styles = StyleSheet.create({
     height: 100,
     justifyContent: 'center',
     backgroundColor: Colors.white,
-  },
-  tileImage: {
-    flex: 1,
-    justifyContent: 'flex-end',
-  },
-  tileText: {
-    textAlign: 'center',
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: Colors.white,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   tileDivider: {
     width: 5,
@@ -63,7 +51,8 @@ class TilesScreen extends React.Component {
 
   constructor(props) {
     super(props);
-    let { id, items } = props.navigation.state.params;
+    const { id } = props.navigation.state.params;
+    let { items } = props.navigation.state.params;
     items = items.map(el => ({
       ...el,
       count: 0,
@@ -72,10 +61,10 @@ class TilesScreen extends React.Component {
       matches: [],
     }));
     items.sort(ListUtils.byNameAsc);
-    shuffled = ListUtils.shuffle(items);
+    const shuffled = ListUtils.shuffle(items);
     this.state = {
-      id: id,
-      items: items,
+      id,
+      items,
       left: shuffled[0],
       right: shuffled[1],
       showTiles: true,
@@ -89,8 +78,8 @@ class TilesScreen extends React.Component {
     });
   }
 
-  onPressTile = num => {
-    let items = this.state.items;
+  onPressTile = (num) => {
+    let { items } = this.state;
 
     const listId = this.state.id;
     const leftId = this.state.left._id;
@@ -98,8 +87,8 @@ class TilesScreen extends React.Component {
     const left = items.find(x => x._id === leftId);
     const right = items.find(x => x._id === rightId);
 
-    left.count = left.count + 1;
-    right.count = right.count + 1;
+    left.count += 1;
+    right.count += 1;
 
     left.matches = [
       ...left.matches,
@@ -125,18 +114,18 @@ class TilesScreen extends React.Component {
       },
     ];
 
-    rightMatch = right.matches.find(x => x._id === leftId);
-    leftMatch = left.matches.find(x => x._id === rightId);
+    const rightMatch = right.matches.find(x => x._id === leftId);
+    const leftMatch = left.matches.find(x => x._id === rightId);
 
-    rightMatch.count = rightMatch.count + 1;
-    leftMatch.count = leftMatch.count + 1;
+    rightMatch.count += 1;
+    leftMatch.count += 1;
 
-    let body = {};
+    const body = {};
     body.items = [];
 
     if (num === 0) {
-      left.picks = left.picks + 1;
-      rightMatch.picks = rightMatch.picks + 1;
+      left.picks += 1;
+      rightMatch.picks += 1;
 
       body.items.push({
         id: leftId,
@@ -161,8 +150,8 @@ class TilesScreen extends React.Component {
         ],
       });
     } else {
-      right.picks = right.picks + 1;
-      leftMatch.picks = leftMatch.picks + 1;
+      right.picks += 1;
+      leftMatch.picks += 1;
 
       body.items.push({
         id: rightId,
@@ -189,26 +178,24 @@ class TilesScreen extends React.Component {
     }
 
     let countSum = 0;
-    items.forEach(el => {
+    items.forEach((el) => {
       countSum += el.count;
     });
 
-    items = items.map(
-      el =>
-        countSum > 0
-          ? {
-              ...el,
-              overall: el.picks * 2 / countSum,
-            }
-          : el,
-    );
+    items = items.map(el =>
+      (countSum > 0
+        ? {
+          ...el,
+          overall: el.picks * 2 / countSum,
+        }
+        : el));
 
     items.sort(ListUtils.byNameAsc);
     items.sort(ListUtils.byPicksDesc);
     items.sort(ListUtils.byPickRateDesc);
     const progress = this.state.progress + 1 / ListUtils.getCombinations(items);
 
-    let pair = ListUtils.getMostPickedLeastCommonPair(items);
+    const pair = ListUtils.getMostPickedLeastCommonPair(items);
 
     if (!pair) {
       this.setState({
@@ -227,7 +214,7 @@ class TilesScreen extends React.Component {
       });
     }
 
-    fetch('https://api.0llum.de/lists/' + listId, {
+    fetch(`https://api.0llum.de/lists/${listId}`, {
       method: 'PATCH',
       headers: {
         Accept: 'application/json',
@@ -237,7 +224,7 @@ class TilesScreen extends React.Component {
     });
   };
 
-  onItemPress = item => {
+  onItemPress = (item) => {
     this.props.navigation.navigate('Details', {
       name: item.name,
       color: item.color || this.props.navigation.state.params.color,

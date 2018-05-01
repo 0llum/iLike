@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import List from '../components/List';
 import * as Colors from '../constants/Colors';
 import * as ColorUtils from '../utils/ColorUtils';
@@ -36,29 +36,11 @@ class TilesScreen extends React.Component {
     this.fetchResults();
   }
 
-  fetchResults() {
-    this.setState({
-      refreshing: true,
-    });
-
-    return fetch('https://api.0llum.de/lists/' + this.state.id)
-      .then(response => response.json())
-      .then(responseJson => {
-        let items = responseJson.items;
-        items.sort(ListUtils.byPickRateDesc);
-        this.setState({
-          items: items,
-          refreshing: false,
-        });
-      })
-      .catch(error => console.log(error));
-  }
-
   onRefresh = () => {
     this.fetchResults();
   };
 
-  onItemPress = item => {
+  onItemPress = (item) => {
     this.props.navigation.navigate('Details', {
       id: this.state.id,
       itemId: item._id,
@@ -66,6 +48,24 @@ class TilesScreen extends React.Component {
       color: item.color || this.props.navigation.state.params.color,
     });
   };
+
+  fetchResults() {
+    this.setState({
+      refreshing: true,
+    });
+
+    return fetch(`https://api.0llum.de/lists/${this.state.id}`)
+      .then(response => response.json())
+      .then((responseJson) => {
+        const { items } = responseJson;
+        items.sort(ListUtils.byPickRateDesc);
+        this.setState({
+          items,
+          refreshing: false,
+        });
+      })
+      .catch(error => console.log(error));
+  }
 
   render() {
     return (

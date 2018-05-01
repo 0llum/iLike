@@ -2,7 +2,6 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import HeaderImage from '../components/HeaderImage';
 import List from '../components/List';
-import * as ColorUtils from '../utils/ColorUtils';
 import Plus from '../assets/plus.png';
 
 const styles = StyleSheet.create({
@@ -45,8 +44,17 @@ class ListSelectScreen extends React.Component {
     this.fetchLists();
   }
 
-  navigateToListCreateScreen = () => {
-    this.props.navigation.navigate('ListCreate');
+  onRefresh = () => {
+    this.fetchLists();
+  };
+
+  onItemPress = (item) => {
+    this.props.navigation.navigate('Tiles', {
+      name: item.name,
+      color: item.color,
+      items: item.items,
+      id: item._id,
+    });
   };
 
   fetchLists() {
@@ -57,7 +65,7 @@ class ListSelectScreen extends React.Component {
     const request = new Request('https://api.0llum.de/lists');
     return fetch(request)
       .then(response => response.json())
-      .then(responseJson => {
+      .then((responseJson) => {
         this.setState({
           items: responseJson,
           refreshing: false,
@@ -66,17 +74,8 @@ class ListSelectScreen extends React.Component {
       .catch(error => console.log(error));
   }
 
-  onRefresh = () => {
-    this.fetchLists();
-  };
-
-  onItemPress = item => {
-    this.props.navigation.navigate('Tiles', {
-      name: item.name,
-      color: item.color,
-      items: item.items,
-      id: item._id,
-    });
+  navigateToListCreateScreen = () => {
+    this.props.navigation.navigate('ListCreate');
   };
 
   render() {

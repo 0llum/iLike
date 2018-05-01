@@ -14,24 +14,22 @@ const styles = StyleSheet.create({
   },
 });
 
-class HeaderImage extends React.Component {
-  render() {
-    const { color, image, onPress } = this.props;
-    return (
-      <TouchableOpacity
-        style={styles.headerImageContainer}
-        onPress={() => (onPress ? onPress() : false)}
-      >
-        <Image
-          style={[
-            styles.headerImage,
-            { tintColor: color ? ColorUtils.getTextColor(color) : Colors.black },
-          ]}
-          source={image}
-        />
-      </TouchableOpacity>
-    );
-  }
-}
+const HeaderImage = (props) => {
+  const { color, image, onPress } = props;
+  return (
+    <TouchableOpacity
+      style={styles.headerImageContainer}
+      onPress={() => (onPress ? onPress() : false)}
+    >
+      <Image
+        style={[
+          styles.headerImage,
+          { tintColor: color ? ColorUtils.getTextColor(color) : Colors.black },
+        ]}
+        source={image}
+      />
+    </TouchableOpacity>
+  );
+};
 
 export default HeaderImage;

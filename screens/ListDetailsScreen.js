@@ -1,5 +1,5 @@
 import React from 'react';
-import { Keyboard, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import List from '../components/List';
 import * as Colors from '../constants/Colors';
 import * as ColorUtils from '../utils/ColorUtils';
@@ -38,27 +38,27 @@ class ListDetailsScreen extends React.Component {
     this.fetchDetails();
   }
 
+  onRefresh = () => {
+    this.fetchDetails();
+  };
+
   fetchDetails() {
     this.setState({
       refreshing: true,
     });
 
-    return fetch('https://api.0llum.de/lists/' + this.state.id + '/' + this.state.itemId)
+    return fetch(`https://api.0llum.de/lists/${this.state.id}/${this.state.itemId}`)
       .then(response => response.json())
-      .then(responseJson => {
-        let matches = responseJson.matches;
+      .then((responseJson) => {
+        const { matches } = responseJson;
         matches.sort(ListUtils.byPickRateDesc);
         this.setState({
-          matches: matches,
+          matches,
           refreshing: false,
         });
       })
       .catch(error => console.log(error));
   }
-
-  onRefresh = () => {
-    this.fetchDetails();
-  };
 
   render() {
     return (

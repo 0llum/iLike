@@ -29,8 +29,8 @@ export function byNameDesc(a, b) {
 }
 
 export function byPickRateAsc(a, b) {
-  pickrateA = a.count > 0 ? a.picks / a.count : 0;
-  pickrateB = b.count > 0 ? b.picks / b.count : 0;
+  const pickrateA = a.count > 0 ? a.picks / a.count : 0;
+  const pickrateB = b.count > 0 ? b.picks / b.count : 0;
 
   if (pickrateA < pickrateB) {
     return -1;
@@ -44,8 +44,8 @@ export function byPickRateAsc(a, b) {
 }
 
 export function byPickRateDesc(a, b) {
-  pickrateA = a.count > 0 ? a.picks / a.count : 0;
-  pickrateB = b.count > 0 ? b.picks / b.count : 0;
+  const pickrateA = a.count > 0 ? a.picks / a.count : 0;
+  const pickrateB = b.count > 0 ? b.picks / b.count : 0;
 
   if (pickrateA < pickrateB) {
     return 1;
@@ -75,8 +75,8 @@ export function byPicksDesc(a, b) {
 }
 
 export function shuffle(array) {
-  copy = array.slice();
-  for (let i = copy.length - 1; i > 0; i--) {
+  const copy = array.slice();
+  for (let i = copy.length - 1; i > 0; i -= 1) {
     const rnd = Math.floor(Math.random() * (i + 1));
     [copy[i], copy[rnd]] = [copy[rnd], copy[i]];
   }
@@ -88,12 +88,12 @@ export function getCombinations(array) {
 }
 
 export function findUnmatchedPair(array, element) {
-  for (let i = 0; i < array.length; i++) {
+  for (let i = 0; i < array.length; i += 1) {
     if (element === array[i]) {
       continue;
     }
-    matchLeft = element.matches.find(x => x._id === array[i]._id);
-    matchRight = array[i].matches.find(x => x._id === element._id);
+    const matchLeft = element.matches.find(x => x._id === array[i]._id);
+    const matchRight = array[i].matches.find(x => x._id === element._id);
     if (!matchLeft && !matchRight) {
       return array[i];
     }
@@ -103,11 +103,11 @@ export function findUnmatchedPair(array, element) {
 }
 
 export function getLeastCommonPair(array) {
-  array = shuffle(array);
-  array.sort(byCountAsc);
+  const shuffled = shuffle(array);
+  shuffled.sort(byCountAsc);
 
-  let left = array[0];
-  let right = findUnmatchedPair(array, left);
+  const left = shuffled[0];
+  const right = findUnmatchedPair(shuffled, left);
 
   if (left && right) {
     return [left, right];
@@ -117,15 +117,15 @@ export function getLeastCommonPair(array) {
 }
 
 export function getMostPickedPair(array) {
-  array = shuffle(array);
-  array.sort(byPickRateDesc);
+  const shuffled = shuffle(array);
+  shuffled.sort(byPickRateDesc);
 
   let left;
   let right;
 
-  for (let i = 0; i < shuffled.length; i++) {
-    left = array[i];
-    right = findUnmatchedPair(array, left);
+  for (let i = 0; i < shuffled.length; i += 1) {
+    left = shuffled[i];
+    right = findUnmatchedPair(shuffled, left);
 
     if (right) {
       break;
@@ -140,12 +140,12 @@ export function getMostPickedPair(array) {
 }
 
 export function getMostPickedLeastCommonPair(array) {
-  array = shuffle(array);
-  array.sort(byPickRateDesc);
-  array.sort(byCountAsc);
+  const shuffled = shuffle(array);
+  shuffled.sort(byPickRateDesc);
+  shuffled.sort(byCountAsc);
 
-  let left = array[0];
-  let right = findUnmatchedPair(array, left);
+  const left = shuffled[0];
+  const right = findUnmatchedPair(shuffled, left);
 
   if (left && right) {
     return [left, right];
