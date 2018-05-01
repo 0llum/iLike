@@ -7,8 +7,6 @@ import {
   FlatList,
   TouchableOpacity,
   Image,
-  UIManager,
-  LayoutAnimation,
 } from 'react-native';
 import ProgressBar from 'react-native-progress/Bar';
 import Avatar from '../components/Avatar';
@@ -77,16 +75,10 @@ class List extends React.Component {
     this.state = {
       width: Dimensions.get('window').width,
     };
-    UIManager.setLayoutAnimationEnabledExperimental &&
-      UIManager.setLayoutAnimationEnabledExperimental(true);
   }
 
   componentDidMount() {
     Dimensions.addEventListener('change', this.onOrientationChange);
-  }
-
-  componentWillUpdate() {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
   }
 
   componentWillUnmount() {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, UIManager, LayoutAnimation } from 'react-native';
 import ProgressBar from 'react-native-progress/Bar';
 import HeaderImage from '../components/HeaderImage';
 import List from '../components/List';
@@ -70,6 +70,9 @@ class TilesScreen extends React.Component {
       showTiles: true,
       progress: 0,
     };
+
+    UIManager.setLayoutAnimationEnabledExperimental &&
+      UIManager.setLayoutAnimationEnabledExperimental(true);
   }
 
   componentWillMount() {
@@ -196,6 +199,8 @@ class TilesScreen extends React.Component {
     const progress = this.state.progress + 1 / ListUtils.getCombinations(items);
 
     const pair = ListUtils.getMostPickedLeastCommonPair(items);
+
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
 
     if (!pair) {
       this.setState({
