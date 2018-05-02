@@ -1,12 +1,6 @@
 import React from 'react';
-import {
-  KeyboardAvoidingView,
-  StyleSheet,
-  View,
-  TextInput,
-  Text,
-  TouchableOpacity,
-} from 'react-native';
+import { KeyboardAvoidingView, StyleSheet, TextInput, Text, TouchableOpacity } from 'react-native';
+import { NavigationActions } from 'react-navigation';
 import * as Colors from '../constants/Colors';
 
 const styles = StyleSheet.create({
@@ -86,7 +80,7 @@ class LoginScreen extends React.Component {
     fetch(request)
       .then(response => response.json())
       .then((responseJson) => {
-        this.props.navigation.navigate('ListSelect');
+        this.login();
       })
       .catch(() => {
         this.setState({
@@ -119,7 +113,7 @@ class LoginScreen extends React.Component {
     fetch(request)
       .then(response => response.json())
       .then((responseJson) => {
-        this.props.navigation.navigate('ListSelect');
+        this.login();
       })
       .catch(() => {
         this.setState({
@@ -157,6 +151,14 @@ class LoginScreen extends React.Component {
       passwordError: '',
     });
     return true;
+  };
+
+  login = () => {
+    const resetAction = NavigationActions.reset({
+      index: 0,
+      actions: [NavigationActions.navigate({ routeName: 'ListSelect' })],
+    });
+    this.props.navigation.dispatch(resetAction);
   };
 
   render() {

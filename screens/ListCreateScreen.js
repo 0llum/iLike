@@ -1,5 +1,6 @@
 import React from 'react';
 import { Keyboard, StyleSheet, View, TextInput, KeyboardAvoidingView } from 'react-native';
+import { NavigationActions } from 'react-navigation';
 import HeaderImage from '../components/HeaderImage';
 import List from '../components/List';
 import * as Colors from '../constants/Colors';
@@ -113,7 +114,11 @@ class ListCreateScreen extends React.Component {
     return fetch(request)
       .then(response => response.json())
       .then((responseJson) => {
-        this.props.navigation.navigate('ListSelect');
+        const resetAction = NavigationActions.reset({
+          index: 0,
+          actions: [NavigationActions.navigate({ routeName: 'ListSelect' })],
+        });
+        this.props.navigation.dispatch(resetAction);
       })
       .catch(error => console.log(error));
   };
