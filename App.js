@@ -1,4 +1,5 @@
 import { StackNavigator } from 'react-navigation';
+import LoginScreen from './screens/LoginScreen';
 import ListSelectScreen from './screens/ListSelectScreen';
 import ListCreateScreen from './screens/ListCreateScreen';
 import ListDetailsScreen from './screens/ListDetailsScreen';
@@ -7,6 +8,7 @@ import ListResultsScreen from './screens/ListResultsScreen';
 
 const Navigation = StackNavigator(
   {
+    Login: { screen: LoginScreen },
     ListSelect: { screen: ListSelectScreen },
     ListCreate: { screen: ListCreateScreen },
     Details: { screen: ListDetailsScreen },
@@ -14,7 +16,7 @@ const Navigation = StackNavigator(
     ListResults: { screen: ListResultsScreen },
   },
   {
-    initialRouteName: 'ListSelect',
+    initialRouteName: 'Login',
   },
 );
 
