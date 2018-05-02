@@ -17,6 +17,7 @@ const Navigation = StackNavigator(
   },
   {
     initialRouteName: 'Login',
+    headerMode: 'float',
   },
 );
 

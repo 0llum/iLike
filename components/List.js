@@ -146,6 +146,7 @@ class List extends React.Component {
                 borderRadius={0}
                 borderWidth={0}
                 color={Colors.brighter}
+                animationType="timing"
               />
             )}
             <TouchableOpacity
