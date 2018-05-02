@@ -124,6 +124,7 @@ class TilesScreen extends React.Component {
     leftMatch.count += 1;
 
     const body = {};
+    body.userId = this.props.navigation.state.params.user.id;
     body.items = [];
 
     if (num === 0) {
