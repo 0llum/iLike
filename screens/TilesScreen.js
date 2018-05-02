@@ -34,15 +34,15 @@ class TilesScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     const params = navigation.state.params || {};
     return {
-      headerTitle: params.name,
+      headerTitle: params.list.name,
       headerStyle: {
-        backgroundColor: params.color || Colors.white,
+        backgroundColor: params.list.color || Colors.white,
       },
-      headerTintColor: ColorUtils.getTextColor(params.color),
+      headerTintColor: ColorUtils.getTextColor(params.list.color),
       headerRight: (
         <HeaderImage
           onPress={params.navigateToListResultsScreen}
-          color={params.color}
+          color={params.list.color}
           image={ArrowRight}
         />
       ),
@@ -51,8 +51,8 @@ class TilesScreen extends React.Component {
 
   constructor(props) {
     super(props);
-    const { id } = props.navigation.state.params;
-    let { items } = props.navigation.state.params;
+    const { id } = props.navigation.state.params.list;
+    let { items } = props.navigation.state.params.list;
     items = items.map(el => ({
       ...el,
       count: 0,
@@ -229,19 +229,11 @@ class TilesScreen extends React.Component {
     });
   };
 
-  onItemPress = (item) => {
-    this.props.navigation.navigate('Details', {
-      name: item.name,
-      color: item.color || this.props.navigation.state.params.color,
-      items: item.matches,
-    });
-  };
-
   navigateToListResultsScreen = () => {
     this.props.navigation.navigate('ListResults', {
       id: this.state.id,
-      name: this.props.navigation.state.params.name,
-      color: this.props.navigation.state.params.color,
+      name: this.props.navigation.state.params.list.name,
+      color: this.props.navigation.state.params.list.color,
     });
   };
 

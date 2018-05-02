@@ -13,7 +13,6 @@ const styles = StyleSheet.create({
 class ListSelectScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     const params = navigation.state.params || {};
-
     return {
       headerTitle: 'Select a list or create one',
       headerRight: (
@@ -49,11 +48,15 @@ class ListSelectScreen extends React.Component {
   };
 
   onItemPress = (item) => {
-    this.props.navigation.navigate('Tiles', {
+    const list = {
       name: item.name,
       color: item.color,
       items: item.items,
       id: item._id,
+    };
+    this.props.navigation.navigate('Tiles', {
+      user: this.props.navigation.state.params.user,
+      list,
     });
   };
 

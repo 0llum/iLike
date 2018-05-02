@@ -80,7 +80,7 @@ class LoginScreen extends React.Component {
     fetch(request)
       .then(response => response.json())
       .then((responseJson) => {
-        this.login();
+        this.login(responseJson);
       })
       .catch(() => {
         this.setState({
@@ -113,7 +113,7 @@ class LoginScreen extends React.Component {
     fetch(request)
       .then(response => response.json())
       .then((responseJson) => {
-        this.login();
+        this.login(responseJson);
       })
       .catch(() => {
         this.setState({
@@ -153,10 +153,23 @@ class LoginScreen extends React.Component {
     return true;
   };
 
-  login = () => {
+  login = (data) => {
+    const user = {
+      id: data._id,
+      email: data.email,
+      password: data.password,
+      matches: data.matches,
+    };
     const resetAction = NavigationActions.reset({
       index: 0,
-      actions: [NavigationActions.navigate({ routeName: 'ListSelect' })],
+      actions: [
+        NavigationActions.navigate({
+          routeName: 'ListSelect',
+          params: {
+            user,
+          },
+        }),
+      ],
     });
     this.props.navigation.dispatch(resetAction);
   };
